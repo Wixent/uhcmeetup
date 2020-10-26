@@ -28,8 +28,6 @@ public class AutoStartEvent implements Listener {
         if (Bukkit.getOnlinePlayers().size() == Main.PlayersToStart) {
             if (!Main.started && !Main.starting) {
                 time = 62;
-                Player player = event.getPlayer();
-                FastBoard board = new FastBoard(player);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
