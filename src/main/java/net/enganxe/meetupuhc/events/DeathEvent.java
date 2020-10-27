@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;;import java.util.HashMap;
 import java.util.Map;
 
+import static net.enganxe.meetupuhc.Main.config;
+
 public class DeathEvent implements Listener {
     private static Main plugin;
     public static Map<String, Integer> PlayerKills = new HashMap<>();
@@ -26,15 +28,21 @@ public class DeathEvent implements Listener {
         if (e.getEntity().getKiller() instanceof Player){
             String killer = e.getEntity().getKiller().getName();
             String p = e.getEntity().getName();
-            String message = "&6" + p + " &ehas been killed by &6" + killer;
-            e.setDeathMessage("" + ChatColor.translateAlternateColorCodes('&', message));
+            String msg = config.getConfig().getString("messages.death_by_player");
+            msg = msg.replace("%victim%", p);
+            msg = msg.replace("%killer%", killer);
+            ChatColor.translateAlternateColorCodes('&', msg);
+            e.setDeathMessage(msg);
             if (Main.PlayersAlive.contains(p)){
                 Main.PlayersAlive.remove(p);
             }
         }
         else if (!(e.getEntity().getKiller() instanceof Player)){
-            Player p = e.getEntity();
-            e.setDeathMessage("" + ChatColor.YELLOW + p + ChatColor.GOLD + " died");
+            String p = e.getEntity().getName();
+            String msg = config.getConfig().getString("messages.death");
+            msg = msg.replace("%victim%", p);
+            ChatColor.translateAlternateColorCodes('&', msg);
+            e.setDeathMessage(msg);
             if (Main.PlayersAlive.contains(p)){
                 Main.PlayersAlive.remove(p);
             }

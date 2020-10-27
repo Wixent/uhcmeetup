@@ -1,7 +1,7 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import net.enganxe.meetupuhc.Scoreboards;
+import net.enganxe.meetupuhc.player.Scoreboards;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,22 +15,28 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import static net.enganxe.meetupuhc.Main.config;
+
 public class HubEvents implements Listener {
     @EventHandler
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         FastBoard board = new FastBoard(player);
-        Main.boards.put(player.getName(), board);
         board.updateTitle(ChatColor.GOLD + "Enganxe Meetup");
+        Main.boards.put(player.getName(), board);
         if (!Main.starting && !Main.started) {
-            int needPlayers = Main.PlayersToStart - Bukkit.getOnlinePlayers().size();
-            Scoreboards.hubScoreboard(board);
+            Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
+            int neededPlayers = Main.PlayersToStart - Bukkit.getOnlinePlayers().size();
             player.setGameMode(GameMode.SURVIVAL);
-            event.setJoinMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GOLD + " has joined (" + needPlayers + " needed players to start)");
-            event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation().add(0.5, 240, 0.5));
+            String msg = config.getConfig().getString("messages.join");
+            String needPlayer = String.valueOf(neededPlayers);
+            msg = msg.replace("%player%", player.getName());
+            msg = msg.replace("%needplayers%", needPlayer);
+            ChatColor.translateAlternateColorCodes('&', msg);
+            event.setJoinMessage(msg);
         }
         else if (Main.starting){
-            Scoreboards.CountdownS(board);
+            player.setAllowFlight(false);
             player.setGameMode(GameMode.SURVIVAL);
             if (Main.PlayersAlive.contains(player)){
                 return;
@@ -40,11 +46,9 @@ public class HubEvents implements Listener {
             }
         }
         else if (Main.started){
-            Scoreboards.GameScoreboard(board);
             event.setJoinMessage("");
             player.setGameMode(GameMode.SPECTATOR);
-            Scoreboards.GameScoreboard(board);
-            event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation().add(0.5, 240, 0.5));
+            event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation().add(0.5, 150, 0.5));
             if (Main.PlayersAlive.contains(player)){
                 Main.PlayersAlive.remove(player);
             }
@@ -53,8 +57,16 @@ public class HubEvents implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
+        FastBoard board = Main.boards.remove(player.getName());
+
+        if (board != null) {
+            board.delete();
+        }
         if (!Main.starting && !Main.started){
-            e.setQuitMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GOLD + " has left");
+            String msg = config.getConfig().getString("messages.quit");
+            msg = msg.replace("%player%", player.getName());
+            ChatColor.translateAlternateColorCodes('&', msg);
+            e.setQuitMessage(msg);
         }
         else if (Main.started){
             if (player.getGameMode() != GameMode.SURVIVAL) {
@@ -71,12 +83,6 @@ public class HubEvents implements Listener {
             }
         }
 
-
-        FastBoard board = Main.boards.remove(player.getName());
-
-        if (board != null) {
-            board.delete();
-        }
     }
     @EventHandler
     public void BreakBlock(BlockBreakEvent e){

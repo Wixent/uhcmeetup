@@ -5,6 +5,10 @@ api-version: 1.16
 author: Wixent
 description: UHC Meetup plugin for Enganxe Network
 website: github.com/wixent
+commands:
+  uhcmeetup:
+    description: Reload plugin config
+    permission: meetup.admin
 permissions:
   meetup.admin:
     description: All Commands

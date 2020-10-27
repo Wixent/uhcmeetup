@@ -1,7 +1,9 @@
 package net.enganxe.meetupuhc.events;
 
+import jdk.internal.icu.util.CodePointTrie;
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
+import net.enganxe.meetupuhc.player.Scoreboards;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +17,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Objects;
 import java.util.Random;
 
+import static net.enganxe.meetupuhc.Main.config;
+
 public class AutoStartEvent implements Listener {
     public static int time;
     private final Main plugin;
@@ -25,17 +29,23 @@ public class AutoStartEvent implements Listener {
 
     @EventHandler
     public void join(PlayerJoinEvent event) {
+        Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
         if (Bukkit.getOnlinePlayers().size() == Main.PlayersToStart) {
             if (!Main.started && !Main.starting) {
-                time = 62;
+                World world = Bukkit.getWorld("world");
+                WorldBorder border = world.getWorldBorder();
+                border.setCenter(0.0, 0.0);
+                border.setSize(200);
+                world.setGameRule(GameRule.NATURAL_REGENERATION, false);
+                time = 61;
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+                        Main.starting = true;
+                        Main.started = false;
                         time = time - 1;
                         if (time == 60){
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
-                            Main.starting = true;
-                            Main.started = false;
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.setGameMode(GameMode.SURVIVAL);
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
@@ -142,7 +152,7 @@ public class AutoStartEvent implements Listener {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
                             }
                         }
-                        if (time == 0) {
+                        if (time <= 0) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "The Meetup has been " + ChatColor.LIGHT_PURPLE + "started!");
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_ANCIENT_DEBRIS_BREAK, 10, 1);
@@ -152,6 +162,7 @@ public class AutoStartEvent implements Listener {
                             }
                             Main.started = true;
                             Main.starting = false;
+                            this.cancel();
                             return;
                         }
                     }
