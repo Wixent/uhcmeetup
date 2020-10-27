@@ -1,6 +1,5 @@
 package net.enganxe.meetupuhc.config;
 
-import jdk.internal.util.xml.impl.Input;
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
