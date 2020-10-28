@@ -21,7 +21,7 @@ public class HubEvents implements Listener {
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         FastBoard board = new FastBoard(player);
-        board.updateTitle(ChatColor.GOLD + "Enganxe Meetup");
+        board.updateTitle(ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("scoreboard.title")));
         Main.boards.put(player.getName(), board);
         if (!Main.starting && !Main.started) {
             Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");

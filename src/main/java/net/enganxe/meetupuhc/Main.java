@@ -1,10 +1,12 @@
 package net.enganxe.meetupuhc;
 
 import net.enganxe.meetupuhc.commands.ReloadCommand;
+import net.enganxe.meetupuhc.commands.StatsCommand;
 import net.enganxe.meetupuhc.config.ConfigFile;
 import net.enganxe.meetupuhc.events.AutoStartEvent;
 import net.enganxe.meetupuhc.events.DeathEvent;
 import net.enganxe.meetupuhc.events.HubEvents;
+import net.enganxe.meetupuhc.events.InventoryClick;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.Scoreboards;
 import org.bukkit.*;
@@ -32,6 +34,8 @@ public final class Main extends JavaPlugin {
         this.config = new ConfigFile(this);
         getServer().getPluginManager().registerEvents(new HubEvents(), this);
         getServer().getPluginManager().registerEvents(new AutoStartEvent(this), this);
+        new InventoryClick(this);
+        new StatsCommand(this);
         new ReloadCommand(this);
         new DeathEvent(this);
         started = false;

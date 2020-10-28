@@ -10,15 +10,15 @@ public class Scoreboards {
     public static void update(FastBoard board){
         if (!Main.started) {
             board.updateLines(
-                    "Players: " + ChatColor.GOLD + Bukkit.getOnlinePlayers().size(),
+                    ChatColor.GOLD + "Players: " + ChatColor.RESET + Bukkit.getOnlinePlayers().size(),
                     "",
                     ChatColor.GOLD + "enganxe.net");
         }
         if (Main.started) {
             board.updateLines(
-                    "Players Alive: " + ChatColor.GOLD + Main.PlayersAlive.size(),
-                    "Kills: " + ChatColor.GOLD + board.getPlayer().getStatistic(Statistic.PLAYER_KILLS),
-                    "Border: " + ChatColor.GOLD + getBorderSize(),
+                    ChatColor.GOLD + "Players Alive: " + ChatColor.RESET + Main.PlayersAlive.size(),
+                    ChatColor.GOLD + "Kills: " + ChatColor.RESET + board.getPlayer().getStatistic(Statistic.PLAYER_KILLS),
+                    ChatColor.GOLD + "Border: " + ChatColor.RESET + getBorderSize(),
                     "",
                     ChatColor.GOLD + "enganxe.net");
         }

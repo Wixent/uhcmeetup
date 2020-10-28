@@ -9,6 +9,8 @@ commands:
   uhcmeetup:
     description: Reload plugin config
     permission: meetup.admin
+  stats:
+    description: See the meetup stats
 permissions:
   meetup.admin:
     description: All Commands
