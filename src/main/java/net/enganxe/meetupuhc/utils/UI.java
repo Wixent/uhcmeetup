@@ -1,6 +1,5 @@
 package net.enganxe.meetupuhc.utils;
 
-import net.enganxe.meetupuhc.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

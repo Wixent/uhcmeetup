@@ -9,6 +9,7 @@ import net.enganxe.meetupuhc.events.HubEvents;
 import net.enganxe.meetupuhc.events.InventoryClick;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.Scoreboards;
+import net.enganxe.meetupuhc.utils.UI;
 import org.bukkit.*;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
@@ -38,6 +39,7 @@ public final class Main extends JavaPlugin {
         new StatsCommand(this);
         new ReloadCommand(this);
         new DeathEvent(this);
+        UI.initialize();
         started = false;
         starting = false;
         PlayersToStart = config.getConfig().getInt("config.playerstostart");
