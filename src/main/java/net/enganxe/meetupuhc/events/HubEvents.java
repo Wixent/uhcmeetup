@@ -1,7 +1,6 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import net.enganxe.meetupuhc.player.Scoreboards;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,8 +31,7 @@ public class HubEvents implements Listener {
             String needPlayer = String.valueOf(neededPlayers);
             msg = msg.replace("%player%", player.getName());
             msg = msg.replace("%needplayers%", needPlayer);
-            ChatColor.translateAlternateColorCodes('&', msg);
-            event.setJoinMessage(msg);
+            event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
         else if (Main.starting){
             player.setAllowFlight(false);
@@ -63,10 +61,9 @@ public class HubEvents implements Listener {
             board.delete();
         }
         if (!Main.starting && !Main.started){
-            String msg = config.getConfig().getString("messages.quit");
+            String msg = Main.config.getConfig().getString("messages.quit");
             msg = msg.replace("%player%", player.getName());
-            ChatColor.translateAlternateColorCodes('&', msg);
-            e.setQuitMessage(msg);
+            e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
         else if (Main.started){
             if (player.getGameMode() != GameMode.SURVIVAL) {

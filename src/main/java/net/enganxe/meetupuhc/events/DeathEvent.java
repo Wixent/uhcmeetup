@@ -31,8 +31,7 @@ public class DeathEvent implements Listener {
             String msg = config.getConfig().getString("messages.death_by_player");
             msg = msg.replace("%victim%", p);
             msg = msg.replace("%killer%", killer);
-            ChatColor.translateAlternateColorCodes('&', msg);
-            e.setDeathMessage(msg);
+            e.setDeathMessage(ChatColor.translateAlternateColorCodes('&', msg));
             if (Main.PlayersAlive.contains(p)){
                 Main.PlayersAlive.remove(p);
             }
@@ -41,8 +40,7 @@ public class DeathEvent implements Listener {
             String p = e.getEntity().getName();
             String msg = config.getConfig().getString("messages.death");
             msg = msg.replace("%victim%", p);
-            ChatColor.translateAlternateColorCodes('&', msg);
-            e.setDeathMessage(msg);
+            e.setDeathMessage(ChatColor.translateAlternateColorCodes('&', msg));
             if (Main.PlayersAlive.contains(p)){
                 Main.PlayersAlive.remove(p);
             }

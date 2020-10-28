@@ -9,7 +9,7 @@ config:
   playerstostart: 3
   borderprefix: "&8[&6&lBorder&8]&r "
 messages:
-  reload: "&6&lUHC &eMeetup &rhas been reloaded"
+  reload: "&6UHC Meetup &rhas been reloaded"
   join: "&e%player%&6 has joined (%needplayers% needed players to start)"
   quit: "&e%player &6has left%"
   death_by_player: "&e%victim% &6has been killed by &e%killer%"
