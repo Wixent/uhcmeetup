@@ -19,12 +19,17 @@ import java.util.Random;
 import static net.enganxe.meetupuhc.Main.config;
 
 public class HubEvents implements Listener {
+    private Main plugin;
+    public HubEvents(Main plugin){
+        this.plugin = plugin;
+    }
     @EventHandler
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         FastBoard board = new FastBoard(player);
         board.updateTitle(ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("scoreboard.title")));
         Main.boards.put(player.getName(), board);
+        player.setBedSpawnLocation(new Location(Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world")), 0, 100, 0));
         String p = player.getPlayer().getName();
         player.setStatistic(Statistic.PLAYER_KILLS, 0);
         if (!Main.starting && !Main.started) {
@@ -33,6 +38,8 @@ public class HubEvents implements Listener {
             player.setGameMode(GameMode.SURVIVAL);
             Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world")), 0, 100, 0);
             player.teleport(loc);
+            player.setHealth(20);
+            player.setFoodLevel(20);
             String msg = config.getConfig().getString("messages.join");
             String needPlayer = String.valueOf(neededPlayers);
             msg = msg.replace("%player%", player.getName());
@@ -42,10 +49,10 @@ public class HubEvents implements Listener {
         else if (Main.starting){
             player.setAllowFlight(false);
             player.setGameMode(GameMode.SURVIVAL);
-            Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 100, 0);
-            player.teleport(loc);
-            player.setGameMode(GameMode.SURVIVAL);
+            this.plugin.AutoStartEvent().scatter(player);
             player.setStatistic(Statistic.PLAYER_KILLS, 0);
+            player.setHealth(20);
+            player.setFoodLevel(20);
         }
         else if (Main.started){
             event.setJoinMessage("");

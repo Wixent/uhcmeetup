@@ -44,7 +44,7 @@ public class DeathEvent implements Listener {
             Main.PlayersAlive.remove(player);
         }
         if (Main.PlayersAlive.size() == 1){
-            Bukkit.broadcastMessage("" + ChatColor.YELLOW + Main.PlayersAlive + ChatColor.GOLD + " won the Meetup!");
+            Bukkit.broadcastMessage("" + ChatColor.YELLOW + Main.PlayersAlive.toString() + ChatColor.GOLD + " won the Meetup!");
             Main.PlayersAlive.clear();
         }
     }

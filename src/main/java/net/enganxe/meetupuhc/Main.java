@@ -18,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class Main extends JavaPlugin {
@@ -25,7 +26,8 @@ public final class Main extends JavaPlugin {
     public static ConfigFile config;
     public static boolean starting;
     public static boolean started;
-    public static ArrayList<Player> PlayersAlive;
+    public static List<Player> PlayersAlive = new ArrayList<Player>();
+    private AutoStartEvent scatterClass;
     public static int PlayersToStart;
 
     public static Map<String, FastBoard> boards = new HashMap<>();
@@ -33,7 +35,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         this.config = new ConfigFile(this);
-        getServer().getPluginManager().registerEvents(new HubEvents(), this);
+        getServer().getPluginManager().registerEvents(new HubEvents(this), this);
         getServer().getPluginManager().registerEvents(new AutoStartEvent(this), this);
         new InventoryClick(this);
         new StatsCommand(this);
@@ -59,5 +61,9 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info("MeetupUHC is disabled");
+    }
+
+    public AutoStartEvent AutoStartEvent(){
+        return this.scatterClass;
     }
 }
