@@ -2,7 +2,9 @@ package net.enganxe.meetupuhc;
 
 import net.enganxe.meetupuhc.commands.ReloadCommand;
 import net.enganxe.meetupuhc.commands.StatsCommand;
+import net.enganxe.meetupuhc.commands.worldmeetupCommand;
 import net.enganxe.meetupuhc.config.ConfigFile;
+import net.enganxe.meetupuhc.config.WorldCreator;
 import net.enganxe.meetupuhc.events.AutoStartEvent;
 import net.enganxe.meetupuhc.events.DeathEvent;
 import net.enganxe.meetupuhc.events.HubEvents;
@@ -11,7 +13,6 @@ import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.Scoreboards;
 import net.enganxe.meetupuhc.utils.UI;
 import org.bukkit.*;
-import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,7 +27,6 @@ public final class Main extends JavaPlugin {
     public static boolean started;
     public static ArrayList<Player> PlayersAlive;
     public static int PlayersToStart;
-    public static int kills;
 
     public static Map<String, FastBoard> boards = new HashMap<>();
 
@@ -38,18 +38,22 @@ public final class Main extends JavaPlugin {
         new InventoryClick(this);
         new StatsCommand(this);
         new ReloadCommand(this);
+        new worldmeetupCommand(this);
         new DeathEvent(this);
+        new WorldCreator();
+        WorldCreator.createLobby();
+        WorldCreator.deleteWorld();
+        WorldCreator.createWorld();
         UI.initialize();
         started = false;
         starting = false;
         PlayersToStart = config.getConfig().getInt("config.playerstostart");
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (FastBoard board : boards.values()) {
-                board.updateTitle(ChatColor.GOLD + "Enganxe Meetup");
+                board.updateTitle(ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("scoreboard.title")));
                 Scoreboards.update(board);
-
             }
-        }, 0, 1);
+        }, 0, 20);
         getLogger().info("MeetupUHC is enabled");
     }
     @Override

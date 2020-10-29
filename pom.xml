@@ -45,6 +45,11 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>3.2.4</version>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -66,6 +71,12 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <artifactId>commons-io</artifactId>
+            <groupId>commons-io</groupId>
+            <scope>compile</scope>
+            <version>2.5</version>
+        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

@@ -4,15 +4,32 @@
 #██║░░░██║██╔══██║██║░░██╗  ██║╚██╔╝██║██╔══╝░░██╔══╝░░░░░██║░░░██║░░░██║██╔═══╝░
 #╚██████╔╝██║░░██║╚█████╔╝  ██║░╚═╝░██║███████╗███████╗░░░██║░░░╚██████╔╝██║░░░░░
 #░╚═════╝░╚═╝░░╚═╝░╚════╝░  ╚═╝░░░░░╚═╝╚══════╝╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░░░ by Wixent
+# This plugin is created for 1.16 version
 
 config:
   playerstostart: 3
-  borderprefix: "&8[&6&lBorder&8]&r "
+  worldborder: 250
+  borderprefix: "&8[&3&lBorder&8]&r "
 messages:
   reload: "&6UHC Meetup &rhas been reloaded"
   join: "&e%player%&6 has joined (%needplayers% needed players to start)"
-  quit: "&e%player &6has left%"
+  quit: "&e%player% &6has left"
   death_by_player: "&e%victim% &6has been killed by &e%killer%"
   death: "&e%victim% &6died"
+  worldborder1: "&bWorldborder is shrinking in one minute"
+  worldborder2: "&bWorldborder is shrinking to 100x100 for 3 minutes"
 scoreboard:
   title: "&6&lMeetup"
+  hubscoreboard:
+    line1: "&ePlayers:&f %players%"
+    line2: ""
+    line3: "&6enganxe.net"
+  gamescoreboard:
+    line1: "&ePlayers Alive:&f %aliveplayers%"
+    line2: "&eKills:&f %kills%"
+    line3: "&eBorder:&f %border%"
+    line4: ""
+    line5: "&6enganxe.net"
+worlds:
+  lobby_world: "lobby"
+  meetup_world: "meetup"

@@ -2,9 +2,7 @@ package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +11,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+
+import java.util.Objects;
+import java.util.Random;
 
 import static net.enganxe.meetupuhc.Main.config;
 
@@ -23,10 +25,14 @@ public class HubEvents implements Listener {
         FastBoard board = new FastBoard(player);
         board.updateTitle(ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("scoreboard.title")));
         Main.boards.put(player.getName(), board);
+        String p = player.getPlayer().getName();
+        player.setStatistic(Statistic.PLAYER_KILLS, 0);
         if (!Main.starting && !Main.started) {
             Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
             int neededPlayers = Main.PlayersToStart - Bukkit.getOnlinePlayers().size();
             player.setGameMode(GameMode.SURVIVAL);
+            Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world")), 0, 100, 0);
+            player.teleport(loc);
             String msg = config.getConfig().getString("messages.join");
             String needPlayer = String.valueOf(neededPlayers);
             msg = msg.replace("%player%", player.getName());
@@ -36,19 +42,24 @@ public class HubEvents implements Listener {
         else if (Main.starting){
             player.setAllowFlight(false);
             player.setGameMode(GameMode.SURVIVAL);
+            Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 100, 0);
+            player.teleport(loc);
             if (Main.PlayersAlive.contains(player)){
                 return;
             }
             if (!Main.PlayersAlive.contains(player)){
+                player.setGameMode(GameMode.SURVIVAL);
+                player.setStatistic(Statistic.PLAYER_KILLS, 0);
                 Main.PlayersAlive.add(player);
             }
         }
         else if (Main.started){
             event.setJoinMessage("");
             player.setGameMode(GameMode.SPECTATOR);
-            event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation().add(0.5, 150, 0.5));
-            if (Main.PlayersAlive.contains(player)){
-                Main.PlayersAlive.remove(player);
+            Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 200, 0);
+            player.teleport(loc);
+            if (Main.PlayersAlive.contains(p)){
+                Main.PlayersAlive.remove(p);
             }
         }
     }

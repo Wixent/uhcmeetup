@@ -3,8 +3,7 @@ package net.enganxe.meetupuhc.events;
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.entity.EntityType;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +24,8 @@ public class DeathEvent implements Listener {
 
     @EventHandler
     public void onPlayerDeath (PlayerDeathEvent e){
+        Player player = e.getEntity();
+        player.setGameMode(GameMode.SPECTATOR);
         if (e.getEntity().getKiller() instanceof Player){
             String killer = e.getEntity().getKiller().getName();
             String p = e.getEntity().getName();
@@ -32,23 +33,19 @@ public class DeathEvent implements Listener {
             msg = msg.replace("%victim%", p);
             msg = msg.replace("%killer%", killer);
             e.setDeathMessage(ChatColor.translateAlternateColorCodes('&', msg));
-            if (Main.PlayersAlive.contains(p)){
-                Main.PlayersAlive.remove(p);
-            }
+            Main.PlayersAlive.remove(player);
+
         }
-        else if (!(e.getEntity().getKiller() instanceof Player)){
-            String p = e.getEntity().getName();
+        else if (!(e.getEntity().getKiller() instanceof Player)) {
             String msg = config.getConfig().getString("messages.death");
+            String p = e.getEntity().getName();
             msg = msg.replace("%victim%", p);
             e.setDeathMessage(ChatColor.translateAlternateColorCodes('&', msg));
-            if (Main.PlayersAlive.contains(p)){
-                Main.PlayersAlive.remove(p);
-            }
+            Main.PlayersAlive.remove(player);
         }
         if (Main.PlayersAlive.size() == 1){
-            for (Player p : Main.PlayersAlive) {
-                Bukkit.broadcastMessage("" + ChatColor.YELLOW + p + ChatColor.GOLD + " won the Meetup!");
-            }
+            Bukkit.broadcastMessage("" + ChatColor.YELLOW + Main.PlayersAlive + ChatColor.GOLD + " won the Meetup!");
+            Main.PlayersAlive.clear();
         }
     }
 }
