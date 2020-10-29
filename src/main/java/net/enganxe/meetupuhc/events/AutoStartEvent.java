@@ -3,6 +3,7 @@ package net.enganxe.meetupuhc.events;
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.config.WorldCreator;
 import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +33,7 @@ public class AutoStartEvent implements Listener {
         if (Bukkit.getOnlinePlayers().size() == Main.PlayersToStart) {
             if (!Main.started && !Main.starting) {
                 time = 61;
-                new BukkitRunnable() {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     @Override
                     public void run() {
                         Main.starting = true;
@@ -43,8 +44,6 @@ public class AutoStartEvent implements Listener {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.setStatistic(Statistic.PLAYER_KILLS, 0);
-                                all.setGameMode(GameMode.SURVIVAL);
                                 scatter(all);
                             }
                         }
@@ -94,7 +93,7 @@ public class AutoStartEvent implements Listener {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
                             }
                         }
-                        if (time <= 0) {
+                        if (time == 0) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "The Meetup has been " + ChatColor.LIGHT_PURPLE + "started!");
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_ANCIENT_DEBRIS_BREAK, 10, 1);
@@ -103,10 +102,9 @@ public class AutoStartEvent implements Listener {
                             Main.starting = false;
 
                             WorldBorderSh();
-                            this.cancel();
                         }
                     }
-                }.runTaskTimer(this.plugin, 0, 20);
+            }, 20L);
             }
         }
     }
@@ -116,7 +114,7 @@ public class AutoStartEvent implements Listener {
             wtime = 61;
         }
         if (Main.started && enablewb) {
-            new BukkitRunnable() {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
                     wtime = wtime - 1;
@@ -133,9 +131,8 @@ public class AutoStartEvent implements Listener {
                         WorldBorder worldBorder = world.getWorldBorder();
                         worldBorder.setSize(100, 180);
                     }
-
                 }
-            }.runTaskTimer(this.plugin, 0, 20);
+            }, 20L);
         }
     }
     public void scatter(Player p){
@@ -187,9 +184,18 @@ public class AutoStartEvent implements Listener {
                         }
 
                     }
+                    p.setStatistic(Statistic.PLAYER_KILLS, 0);
+                    p.setGameMode(GameMode.SURVIVAL);
                     p.teleport(new Location(Bukkit.getWorld(world), x, y, z));
                     p.setGameMode(GameMode.SURVIVAL);
                     Main.PlayersAlive.add(p);
+                    /* Location loc = p.getLocation();
+                    ArmorStand stand = p.getLocation().getWorld().spawn(loc, ArmorStand.class);
+                    stand.setVisible(false);
+                    stand.setInvulnerable(true);
+                    stand.setCollidable(false);
+                    stand.addPassenger(p);*/
+
                 }
         }.runTaskLater(this.plugin, 5);
     }

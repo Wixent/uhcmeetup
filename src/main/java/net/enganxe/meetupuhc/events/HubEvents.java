@@ -44,14 +44,8 @@ public class HubEvents implements Listener {
             player.setGameMode(GameMode.SURVIVAL);
             Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 100, 0);
             player.teleport(loc);
-            if (Main.PlayersAlive.contains(player)){
-                return;
-            }
-            if (!Main.PlayersAlive.contains(player)){
-                player.setGameMode(GameMode.SURVIVAL);
-                player.setStatistic(Statistic.PLAYER_KILLS, 0);
-                Main.PlayersAlive.add(player);
-            }
+            player.setGameMode(GameMode.SURVIVAL);
+            player.setStatistic(Statistic.PLAYER_KILLS, 0);
         }
         else if (Main.started){
             event.setJoinMessage("");
