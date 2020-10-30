@@ -7,14 +7,16 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;;import java.util.HashMap;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;;import java.util.HashMap;
 import java.util.Map;
 
 import static net.enganxe.meetupuhc.Main.config;
 
 public class DeathEvent implements Listener {
     private static Main plugin;
-    public static Map<String, Integer> PlayerKills = new HashMap<>();
 
     public DeathEvent (Main plugin){
         this.plugin = plugin;
@@ -43,9 +45,20 @@ public class DeathEvent implements Listener {
             e.setDeathMessage(ChatColor.translateAlternateColorCodes('&', msg));
             Main.PlayersAlive.remove(player);
         }
-        if (Main.PlayersAlive.size() == 1){
-            Bukkit.broadcastMessage("" + ChatColor.YELLOW + Main.PlayersAlive.toString() + ChatColor.GOLD + " won the Meetup!");
+        if (Main.PlayersAlive.size() == 1) {
+            Player palive = Main.PlayersAlive.get(1);
+            String playerr = palive.getName();
+            Bukkit.broadcastMessage("" + ChatColor.YELLOW + playerr + ChatColor.GOLD + " won the Meetup!");
             Main.PlayersAlive.clear();
+            Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
+            BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+            scheduler.scheduleSyncDelayedTask((Plugin) this, new Runnable() {
+                @Override
+                public void run() {
+                    Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
+                    Bukkit.spigot().restart();
+                }
+            }, 400);
         }
     }
 }

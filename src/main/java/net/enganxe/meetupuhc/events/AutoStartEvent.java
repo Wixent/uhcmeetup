@@ -34,6 +34,7 @@ public class AutoStartEvent implements Listener {
     public void join(PlayerJoinEvent event) {
         Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
         String world = config.getConfig().getString("worlds.meetup_world");
+        World worldd = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));;
         if (Bukkit.getOnlinePlayers().size() == Main.PlayersToStart) {
             if (!Main.started && !Main.starting) {
                 time = 61;
@@ -43,6 +44,10 @@ public class AutoStartEvent implements Listener {
                         time = time - 1;
                         if (time == 60){
                             WorldCreator.setWorldBorder();
+                            worldd.setGameRule(GameRule.NATURAL_REGENERATION, false);
+                            worldd.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+                            worldd.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+                            worldd.setGameRule(GameRule.DO_INSOMNIA, false);
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             Main.starting = true;
                             Main.started = false;
@@ -116,7 +121,7 @@ public class AutoStartEvent implements Listener {
                             }
                         }
                     }
-                },0L, 20L);
+                },0L, 35L);
             }
         }
     }
@@ -144,17 +149,11 @@ public class AutoStartEvent implements Listener {
                         worldBorder.setSize(200, 180);
                     }
                 }
-            }, 0L, 20L);
+            }, 0L, 35L);
         }
     }
     public void scatter(Player p){
         p.getInventory().clear();
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 200));
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
         new BukkitRunnable() {

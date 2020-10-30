@@ -35,7 +35,7 @@ public class Scoreboards {
         }
         if (Main.started) {
             String kills = String.valueOf(board.getPlayer().getStatistic(Statistic.PLAYER_KILLS));
-            String palive = String.valueOf(board.getPlayer().getStatistic(Statistic.PLAYER_KILLS));
+            String palive = String.valueOf(Main.PlayersAlive.size());
             String line1 = config.getConfig().getString("scoreboard.gamescoreboard.line1");
             String line2 = config.getConfig().getString("scoreboard.gamescoreboard.line2");
             String line3 = config.getConfig().getString("scoreboard.gamescoreboard.line3");

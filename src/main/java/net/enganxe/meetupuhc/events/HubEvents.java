@@ -3,6 +3,7 @@ package net.enganxe.meetupuhc.events;
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import org.bukkit.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,12 +12,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.spigotmc.event.entity.EntityDismountEvent;
 
-import java.util.Objects;
-import java.util.Random;
-
-import static net.enganxe.meetupuhc.Main.config;
+import static net.enganxe.meetupuhc.Main.*;
 
 public class HubEvents implements Listener {
     private Main plugin;
@@ -113,6 +111,12 @@ public class HubEvents implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent e){
         if (!Main.started){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void Dismount(EntityDismountEvent e) {
+        if (!started && starting){
             e.setCancelled(true);
         }
     }
