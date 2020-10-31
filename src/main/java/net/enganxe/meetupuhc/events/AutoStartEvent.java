@@ -195,7 +195,6 @@ public class AutoStartEvent implements Listener {
                     if (rand.nextInt(100) <= 49) {
                         z = -1 * z;
                     }
-
                 }
                 p.setStatistic(Statistic.PLAYER_KILLS, 0);
                 p.teleport(new Location(Bukkit.getWorld(world), x, y, z));
