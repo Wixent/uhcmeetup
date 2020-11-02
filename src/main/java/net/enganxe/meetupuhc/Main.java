@@ -11,6 +11,7 @@ import net.enganxe.meetupuhc.events.HubEvents;
 import net.enganxe.meetupuhc.events.InventoryClick;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.Scoreboards;
+import net.enganxe.meetupuhc.scenarios.TimeBomb;
 import net.enganxe.meetupuhc.utils.UI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -44,6 +45,7 @@ public final class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         this.config = new ConfigFile(this);
         getServer().getPluginManager().registerEvents(new HubEvents(this), this);
+        new TimeBomb(this);
         new AutoStartEvent(this);
         new InventoryClick(this);
         new StatsCommand(this);

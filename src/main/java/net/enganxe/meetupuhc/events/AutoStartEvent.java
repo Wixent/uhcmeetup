@@ -20,9 +20,9 @@ import static net.enganxe.meetupuhc.Main.*;
 
 public class AutoStartEvent implements Listener {
     public static int time;
-    private final Main plugin;
     public static int wtime;
     public static boolean enablewb;
+    private final Main plugin;
     public AutoStartEvent(Main plugin){
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -57,6 +57,7 @@ public class AutoStartEvent implements Listener {
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
                                 scatter(all);
+                                KitGiver.setInv(all);
                             }
                         }
                         if (time == 30) {
@@ -149,7 +150,7 @@ public class AutoStartEvent implements Listener {
                         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));
                         World world = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));
                         WorldBorder worldBorder = world.getWorldBorder();
-                        worldBorder.setSize(200, 180);
+                        worldBorder.setSize(100, 180);
                     }
                 }
             }, 0L, 20L);
