@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Paper" type="JarApplication">
+    <option name="JAR_PATH" value="$USER_HOME$/Desktop/testserver/paperclip-138.jar" />
+    <option name="WORKING_DIRECTORY" value="C:\Users\wixen\Desktop\testserver" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <module name="MeetupUHC" />
+    <method v="2" />
+  </configuration>
+</component>

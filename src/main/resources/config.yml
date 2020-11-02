@@ -6,6 +6,13 @@
 #░╚═════╝░╚═╝░░╚═╝░╚════╝░  ╚═╝░░░░░╚═╝╚══════╝╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░░░ by Wixent
 # This plugin is created for 1.16 version
 
+mysql: #MySql Support for stats
+  host: 'na.sql.titannodes.com'
+  database: 's7768_test'
+  username: 'u7768_CPZ0JhGoJm'
+  password: 'Mj+AJBYm=v5!eP5^5mZ=dJdn'
+  port: 3306
+  table: 'player_data'
 config:
   playerstostart: 3
   worldborder: 250

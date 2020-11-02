@@ -1,5 +1,6 @@
 package net.enganxe.meetupuhc.utils;
 
+import net.enganxe.meetupuhc.commands.StatsCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -19,7 +20,7 @@ public class UI {
 
     public static Inventory GUI (Player p){
         Inventory toReturn = Bukkit.createInventory(null, inv_rows, inventory_name);
-        Utils.createItem(inv, "iron_sword", 1, 13, "&bKills", "&7Example");
+        Utils.createItem(inv, "iron_sword", 1, 13, "&bKills", "&7" + StatsCommand.playerkills);
         Utils.createItem(inv, "rotten_flesh", 1, 14, "&cDeaths", "&7Example");
         Utils.createItem(inv, "golden_apple", 1, 15, "&aGames Played", "&7Example");
         toReturn.setContents(inv.getContents());

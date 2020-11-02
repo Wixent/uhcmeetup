@@ -11,14 +11,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Objects;
 import java.util.Random;
 
-import static net.enganxe.meetupuhc.Main.config;
+import static net.enganxe.meetupuhc.Main.*;
 
 public class AutoStartEvent implements Listener {
     public static int time;
@@ -32,6 +30,11 @@ public class AutoStartEvent implements Listener {
 
     @EventHandler
     public void join(PlayerJoinEvent event) {
+        Player p = event.getPlayer();
+        if (starting && !started){
+            scatter(p);
+            return;
+        }
         Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
         String world = config.getConfig().getString("worlds.meetup_world");
         World worldd = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));;
@@ -121,7 +124,7 @@ public class AutoStartEvent implements Listener {
                             }
                         }
                     }
-                },0L, 35L);
+                },0L, 20L);
             }
         }
     }
@@ -149,7 +152,7 @@ public class AutoStartEvent implements Listener {
                         worldBorder.setSize(200, 180);
                     }
                 }
-            }, 0L, 35L);
+            }, 0L, 20L);
         }
     }
     public void scatter(Player p){

@@ -1,10 +1,7 @@
 package net.enganxe.meetupuhc.config;
 
 import org.apache.commons.io.FileUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +18,10 @@ public class WorldCreator {
             c.type(WorldType.FLAT);
             c.generateStructures(false);
             c.createWorld();
+            World world = Bukkit.getWorld(Objects.requireNonNull(config.getConfig().getString("worlds.lobby_world")));
+            assert world != null;
+            world.setDifficulty(Difficulty.PEACEFUL);
+
         }
     }
     public static void createWorld(){
@@ -90,6 +91,9 @@ public class WorldCreator {
             c.seed(-575037565325895L);
         }
         c.createWorld();
+        World world = Bukkit.getWorld(Objects.requireNonNull(config.getConfig().getString("worlds.meetup_world")));
+        assert world != null;
+        world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
     }
     public static void deleteWorld(){
         File worldFolder = new File(Objects.requireNonNull(config.getConfig().getString("worlds.meetup_world")));

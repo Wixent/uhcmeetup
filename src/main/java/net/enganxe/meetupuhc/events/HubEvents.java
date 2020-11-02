@@ -3,7 +3,6 @@ package net.enganxe.meetupuhc.events;
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import org.bukkit.*;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,10 +46,14 @@ public class HubEvents implements Listener {
         else if (Main.starting){
             player.setAllowFlight(false);
             player.setGameMode(GameMode.SURVIVAL);
-            this.plugin.AutoStartEvent().scatter(player);
             player.setStatistic(Statistic.PLAYER_KILLS, 0);
             player.setHealth(20);
             player.setFoodLevel(20);
+            if (PlayersAlive.contains(player)){
+                PlayersAlive.remove(player);
+            }
+            PlayersAlive.add(player);
+            event.setJoinMessage("");
         }
         else if (Main.started){
             event.setJoinMessage("");
@@ -66,6 +69,7 @@ public class HubEvents implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         FastBoard board = Main.boards.remove(player.getName());
+        e.getPlayer().eject();
 
         if (board != null) {
             board.delete();
@@ -78,15 +82,11 @@ public class HubEvents implements Listener {
         else if (Main.started){
             if (player.getGameMode() != GameMode.SURVIVAL) {
                 e.setQuitMessage("");
-                if (Main.PlayersAlive.contains(player)){
-                    Main.PlayersAlive.remove(player);
-                }
+                Main.PlayersAlive.remove(player);
             }
             else if (player.getGameMode() == GameMode.SURVIVAL){
                 e.setQuitMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GOLD + " has left");
-                if (Main.PlayersAlive.contains(player)){
-                    Main.PlayersAlive.remove(player);
-                }
+                Main.PlayersAlive.remove(player);
             }
         }
 
@@ -111,12 +111,6 @@ public class HubEvents implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent e){
         if (!Main.started){
-            e.setCancelled(true);
-        }
-    }
-    @EventHandler
-    public void Dismount(EntityDismountEvent e) {
-        if (!started && starting){
             e.setCancelled(true);
         }
     }
