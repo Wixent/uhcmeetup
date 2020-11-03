@@ -61,6 +61,7 @@ public final class Main extends JavaPlugin implements Listener {
         started = false;
         starting = false;
         StatsCommand.playerkills = 0;
+        PlayersAlive.clear();
         PlayersToStart = config.getConfig().getInt("config.playerstostart");
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (FastBoard board : boards.values()) {

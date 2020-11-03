@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,12 +54,11 @@ public class DeathEvent implements Listener {
             Main.PlayersAlive.clear();
             Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
             BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-            scheduler.scheduleSyncDelayedTask((Plugin) this, new Runnable() {
-                @Override
-                public void run() {
-                    Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
-                    Bukkit.spigot().restart();
-                }
+            scheduler.scheduleSyncDelayedTask((Plugin) this, () -> {
+                Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
+                ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+                String command = "restart";
+                Bukkit.dispatchCommand(console, command);
             }, 400);
         }
     }

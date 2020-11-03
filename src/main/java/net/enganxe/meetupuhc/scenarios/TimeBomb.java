@@ -69,7 +69,7 @@ public class TimeBomb implements Listener {
                 time--;
 
                 if (time == 0) {
-                    Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "]" + "§a" + player.getName() + "'s §fcorpse has exploded!");
+                    Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "] " + "§a" + player.getName() + "'s §fcorpse has exploded!");
                     loc.getBlock().setType(Material.AIR);
                     loc.getWorld().createExplosion(loc.getBlockX() + 0.5, loc.getBlockY() + 0.5, loc.getBlockZ() + 0.5, 6, false, true);
                     loc.getWorld().strikeLightning(loc);

@@ -13,6 +13,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -46,6 +47,8 @@ public class HubEvents implements Listener {
             player.teleport(loc);
             player.setHealth(20);
             player.setFoodLevel(20);
+            Inventory inv = player.getInventory();
+            inv.clear();
             String msg = config.getConfig().getString("messages.join");
             String needPlayer = String.valueOf(neededPlayers);
             msg = msg.replace("%player%", player.getName());
