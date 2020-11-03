@@ -92,6 +92,9 @@ public class HubEvents implements Listener {
             msg = msg.replace("%player%", player.getName());
             e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }
+        else if (starting && !started){
+            e.setQuitMessage("");
+        }
         else if (Main.started){
             if (player.getGameMode() != GameMode.SURVIVAL) {
                 e.setQuitMessage("");
@@ -107,12 +110,9 @@ public class HubEvents implements Listener {
                 Main.PlayersAlive.clear();
                 Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
                 BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-                scheduler.scheduleSyncDelayedTask((Plugin) this, new Runnable() {
-                    @Override
-                    public void run() {
-                        Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
-                        Bukkit.spigot().restart();
-                    }
+                scheduler.scheduleSyncDelayedTask((Plugin) this, () -> {
+                    Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
+                    Bukkit.spigot().restart();
                 }, 400);
             }
         }
