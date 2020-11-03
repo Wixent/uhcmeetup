@@ -1,7 +1,7 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import net.enganxe.meetupuhc.utils.UI;
+import net.enganxe.meetupuhc.guis.UI;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

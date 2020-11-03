@@ -2,6 +2,7 @@ package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.config.WorldCreator;
+import net.enganxe.meetupuhc.player.KitGiver;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -123,6 +124,9 @@ public class AutoStartEvent implements Listener {
                                     all.removePotionEffect(effect.getType());
                                 }
                             }
+                            int mplayed = config.getConfig().getInt("stats.Played");
+                            config.getConfig().set("stats.Played", mplayed + 1);
+                            config.saveConfig();
                         }
                     }
                 },0L, 20L);

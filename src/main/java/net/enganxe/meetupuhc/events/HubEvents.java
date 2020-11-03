@@ -2,7 +2,9 @@ package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
+import net.enganxe.meetupuhc.player.KitGiver;
 import org.bukkit.*;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,11 +16,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Objects;
 import java.util.Random;
@@ -61,9 +61,6 @@ public class HubEvents implements Listener {
             player.setStatistic(Statistic.PLAYER_KILLS, 0);
             player.setHealth(20);
             player.setFoodLevel(20);
-            if (PlayersAlive.contains(player)){
-                PlayersAlive.remove(player);
-            }
             PlayersAlive.add(player);
             event.setJoinMessage("");
             scatter(player);
@@ -73,9 +70,6 @@ public class HubEvents implements Listener {
             player.setGameMode(GameMode.SPECTATOR);
             Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 200, 0);
             player.teleport(loc);
-            if (Main.PlayersAlive.contains(p)){
-                Main.PlayersAlive.remove(p);
-            }
         }
     }
     @EventHandler
@@ -94,6 +88,7 @@ public class HubEvents implements Listener {
         }
         else if (starting && !started){
             e.setQuitMessage("");
+            Main.PlayersAlive.remove(player);
         }
         else if (Main.started){
             if (player.getGameMode() != GameMode.SURVIVAL) {
@@ -109,11 +104,15 @@ public class HubEvents implements Listener {
                 Bukkit.broadcastMessage("" + ChatColor.YELLOW + palive + ChatColor.GOLD + " won the Meetup!");
                 Main.PlayersAlive.clear();
                 Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
-                BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-                scheduler.scheduleSyncDelayedTask((Plugin) this, () -> {
-                    Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
-                    Bukkit.spigot().restart();
-                }, 400);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
+                        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+                        String command = "restart";
+                        Bukkit.dispatchCommand(console, command);
+                    }
+                }, 400L);
             }
         }
 

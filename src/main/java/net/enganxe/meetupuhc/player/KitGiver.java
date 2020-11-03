@@ -1,4 +1,4 @@
-package net.enganxe.meetupuhc.events;
+package net.enganxe.meetupuhc.player;
 
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.ChatColor;
@@ -222,7 +222,6 @@ public class KitGiver {
         }
         else if (boots == 1){
             ItemStack bootss = new ItemStack(DIAMOND_BOOTS);
-            Random e = new Random();
             int en = getRandomInt(2);
             if (en == 0 || en == 1){
                 bootss.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);

@@ -5,14 +5,12 @@ import net.enganxe.meetupuhc.commands.StatsCommand;
 import net.enganxe.meetupuhc.commands.worldmeetupCommand;
 import net.enganxe.meetupuhc.config.ConfigFile;
 import net.enganxe.meetupuhc.config.WorldCreator;
-import net.enganxe.meetupuhc.events.AutoStartEvent;
-import net.enganxe.meetupuhc.events.DeathEvent;
-import net.enganxe.meetupuhc.events.HubEvents;
-import net.enganxe.meetupuhc.events.InventoryClick;
+import net.enganxe.meetupuhc.events.*;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
+import net.enganxe.meetupuhc.guis.UI2;
 import net.enganxe.meetupuhc.player.Scoreboards;
 import net.enganxe.meetupuhc.scenarios.TimeBomb;
-import net.enganxe.meetupuhc.utils.UI;
+import net.enganxe.meetupuhc.guis.UI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -52,12 +50,13 @@ public final class Main extends JavaPlugin implements Listener {
         new ReloadCommand(this);
         new worldmeetupCommand(this);
         new DeathEvent(this);
+        new StatsEvents(this);
         new WorldCreator();
         WorldCreator.createLobby();
         WorldCreator.deleteWorld();
         WorldCreator.createWorld();
         UI.initialize();
-        mysqlSetup();
+        UI2.initialize();
         started = false;
         starting = false;
         StatsCommand.playerkills = 0;
@@ -78,39 +77,4 @@ public final class Main extends JavaPlugin implements Listener {
         getLogger().info("MeetupUHC is disabled");
     }
 
-    public void mysqlSetup() {
-        host = config.getConfig().getString("mysql.host");
-        port = config.getConfig().getInt("mysql.port");
-        database = config.getConfig().getString("mysql.database");
-        username = config.getConfig().getString("mysql.username");
-        password = config.getConfig().getString("mysql.password");
-        table = config.getConfig().getString("mysql.table");
-
-        try {
-
-            synchronized (this) {
-                if (getConnection() != null && !getConnection().isClosed()) {
-                    return;
-                }
-
-                Class.forName("com.mysql.jdbc.Driver");
-                setConnection(DriverManager.getConnection("jdbc:mysql://" + this.host + ":"
-                        + this.port + "/" + this.database, this.username, this.password));
-
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL CONNECTED");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 }

@@ -1,10 +1,7 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,16 +47,21 @@ public class DeathEvent implements Listener {
         }
         if (Main.PlayersAlive.size() == 1) {
             String palive = Main.PlayersAlive.get(0).getName();
+            int wins = config.getConfig().getInt("stats.players." + palive + ".wins");
+            config.getConfig().set("stats.players." + palive + ".wins", wins + 1);
+            config.saveConfig();
             Bukkit.broadcastMessage("" + ChatColor.YELLOW + palive + ChatColor.GOLD + " won the Meetup!");
             Main.PlayersAlive.clear();
             Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
-            BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-            scheduler.scheduleSyncDelayedTask((Plugin) this, () -> {
-                Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
-                ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-                String command = "restart";
-                Bukkit.dispatchCommand(console, command);
-            }, 400);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
+                    ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+                    String command = "restart";
+                    Bukkit.dispatchCommand(console, command);
+                }
+            }, 400L);
         }
     }
 }
