@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +17,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static org.bukkit.Material.*;
@@ -30,15 +33,29 @@ public class TimeBomb implements Listener {
         final Player player = event.getEntity();
         final Location loc = player.getLocation().clone();
 
-        Block block = loc.getBlock();
+        Block leftSide = loc.getBlock();
+        Block rightSide = loc.clone().add(0, 0, -1).getBlock();
 
-        block = block.getRelative(BlockFace.DOWN);
-        block.setType(Material.CHEST);
+        leftSide.setType(Material.CHEST);
+        rightSide.setType(Material.CHEST);
 
-        Chest chest = (Chest) block.getState();
+        BlockData leftData = leftSide.getBlockData();
+        ((Directional) leftData).setFacing(BlockFace.NORTH);
+        leftSide.setBlockData(leftData);
 
-        block = block.getRelative(BlockFace.NORTH);
-        block.setType(Material.CHEST);
+        org.bukkit.block.data.type.Chest chestDataLeft = (org.bukkit.block.data.type.Chest) leftData;
+        chestDataLeft.setType(org.bukkit.block.data.type.Chest.Type.RIGHT);
+        leftSide.setBlockData(chestDataLeft);
+
+        Chest chest = (Chest) leftSide.getState();
+
+        BlockData rightData = rightSide.getBlockData();
+        ((Directional) rightData).setFacing(BlockFace.NORTH);
+        rightSide.setBlockData(rightData);
+
+        org.bukkit.block.data.type.Chest chestDataRight = (org.bukkit.block.data.type.Chest) rightData;
+        chestDataRight.setType(org.bukkit.block.data.type.Chest.Type.LEFT);
+        rightSide.setBlockData(chestDataRight);
 
         for (ItemStack item : event.getDrops()) {
             if (item == null || item.getType() == Material.AIR) {
@@ -46,8 +63,18 @@ public class TimeBomb implements Listener {
             }
             chest.getInventory().addItem(item);
         }
-        ItemStack a = new ItemStack(NETHERITE_SCRAP, 2);
-        ItemStack e = new ItemStack(GOLD_INGOT, 4);
+        ItemStack a = new ItemStack(Material.NETHERITE_SCRAP, 2);
+        ItemStack e = new ItemStack(Material.GOLD_INGOT, 4);
+        ItemStack ghead = new ItemStack(GOLDEN_APPLE, 1);
+        ItemMeta gheadMeta = ghead.getItemMeta();
+        String headName = Main.config.getConfig().getString("config.goldenhead");
+        assert gheadMeta != null;
+        assert headName != null;
+        gheadMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
+                headName));
+        ghead.setItemMeta(gheadMeta);
+
+        chest.getInventory().addItem(ghead);
         chest.getInventory().addItem(a);
         chest.getInventory().addItem(e);
 

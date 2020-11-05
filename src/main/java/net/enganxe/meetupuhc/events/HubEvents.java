@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,7 +38,6 @@ public class HubEvents implements Listener {
         board.updateTitle(ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("scoreboard.title")));
         Main.boards.put(player.getName(), board);
         player.setBedSpawnLocation(new Location(Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world")), 0, 100, 0));
-        String p = player.getPlayer().getName();
         player.setStatistic(Statistic.PLAYER_KILLS, 0);
         if (!Main.starting && !Main.started) {
             Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
@@ -61,9 +61,12 @@ public class HubEvents implements Listener {
             player.setStatistic(Statistic.PLAYER_KILLS, 0);
             player.setHealth(20);
             player.setFoodLevel(20);
-            PlayersAlive.add(player);
-            event.setJoinMessage("");
+            PlayerInventory inv =  player.getInventory();
+            inv.clear();
             scatter(player);
+            KitGiver.setInv(player);
+            event.setJoinMessage("");
+
         }
         else if (Main.started){
             event.setJoinMessage("");
@@ -91,19 +94,21 @@ public class HubEvents implements Listener {
             Main.PlayersAlive.remove(player);
         }
         else if (Main.started){
+            Main.PlayersAlive.remove(player);
             if (player.getGameMode() != GameMode.SURVIVAL) {
                 e.setQuitMessage("");
-                Main.PlayersAlive.remove(player);
             }
             else if (player.getGameMode() == GameMode.SURVIVAL){
-                e.setQuitMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GOLD + " has left");
-                Main.PlayersAlive.remove(player);
+                e.setQuitMessage(ChatColor.YELLOW + player.getName() + ChatColor.GOLD + " has left");
             }
             if (Main.PlayersAlive.size() == 1) {
                 String palive = Main.PlayersAlive.get(0).getName();
                 Bukkit.broadcastMessage("" + ChatColor.YELLOW + palive + ChatColor.GOLD + " won the Meetup!");
+                int wins = config.getConfig().getInt("stats.players." + palive + ".wins");
+                config.getConfig().set("stats.players." + palive + ".wins", wins + 1);
+                config.saveConfig();
                 Main.PlayersAlive.clear();
-                Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
+                Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 30 seconds");
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     @Override
                     public void run() {
@@ -112,14 +117,14 @@ public class HubEvents implements Listener {
                         String command = "restart";
                         Bukkit.dispatchCommand(console, command);
                     }
-                }, 400L);
+                }, 600L);
             }
         }
 
     }
     @EventHandler
     public void BreakBlock(BlockBreakEvent e){
-        if (!Main.started){
+        if (!Main.started || finalized){
             Player player = e.getPlayer();
             if (!player.hasPermission("meetup.admin")){
                 e.setCancelled(true);
@@ -129,22 +134,25 @@ public class HubEvents implements Listener {
     }
     @EventHandler
     public void Hunger(FoodLevelChangeEvent e){
-        if (!Main.started){
+        if (!Main.started || finalized){
             e.setFoodLevel(20);
             e.setCancelled(true);
         }
     }
     @EventHandler
     public void onDamage(EntityDamageEvent e){
-        if (!Main.started){
+        if (!Main.started || finalized){
             e.setCancelled(true);
         }
     }
     @EventHandler
-    public void onEat(PlayerItemConsumeEvent e){
-        if (e.getItem().getType() == Material.GOLDEN_APPLE && e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(config.getConfig().getString("config.goldenhead"))){
-            Player p = e.getPlayer();
-            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 9, 2));
+    public void onEat(PlayerItemConsumeEvent e) {
+        if (e.getItem().getType() == Material.GOLDEN_APPLE) {
+            if (e.getItem().getItemMeta().getDisplayName().equals(config.getConfig().getString("config.goldenhead"))) {
+                Player p = e.getPlayer();
+                p.removePotionEffect(PotionEffectType.REGENERATION);
+                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 9, 2));
+            }
         }
     }
 
@@ -152,7 +160,6 @@ public class HubEvents implements Listener {
         p.getInventory().clear();
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
-        KitGiver.setInv(p);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -193,7 +200,6 @@ public class HubEvents implements Listener {
                         z = -1 * z;
                     }
                 }
-                p.setStatistic(Statistic.PLAYER_KILLS, 0);
                 p.teleport(new Location(Bukkit.getWorld(world), x, y, z));
                 p.setGameMode(GameMode.SURVIVAL);
                 Main.PlayersAlive.add(p);

@@ -2,11 +2,12 @@ package net.enganxe.meetupuhc;
 
 import net.enganxe.meetupuhc.commands.ReloadCommand;
 import net.enganxe.meetupuhc.commands.StatsCommand;
-import net.enganxe.meetupuhc.commands.worldmeetupCommand;
+import net.enganxe.meetupuhc.commands.TopStatsCommand;
 import net.enganxe.meetupuhc.config.ConfigFile;
 import net.enganxe.meetupuhc.config.WorldCreator;
 import net.enganxe.meetupuhc.events.*;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
+import net.enganxe.meetupuhc.guis.TopUI;
 import net.enganxe.meetupuhc.guis.UI2;
 import net.enganxe.meetupuhc.player.Scoreboards;
 import net.enganxe.meetupuhc.scenarios.TimeBomb;
@@ -18,8 +19,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ public final class Main extends JavaPlugin implements Listener {
     public static ConfigFile config;
     public static boolean starting;
     public static boolean started;
+    public static boolean finalized;
     public static List<Player> PlayersAlive = new ArrayList<Player>();
     private AutoStartEvent scatterClass;
     public static int PlayersToStart;
@@ -48,7 +48,7 @@ public final class Main extends JavaPlugin implements Listener {
         new InventoryClick(this);
         new StatsCommand(this);
         new ReloadCommand(this);
-        new worldmeetupCommand(this);
+        new TopStatsCommand(this);
         new DeathEvent(this);
         new StatsEvents(this);
         new WorldCreator();
@@ -57,8 +57,10 @@ public final class Main extends JavaPlugin implements Listener {
         WorldCreator.createWorld();
         UI.initialize();
         UI2.initialize();
+        TopUI.initialize();
         started = false;
         starting = false;
+        finalized = false;
         StatsCommand.playerkills = 0;
         PlayersAlive.clear();
         PlayersToStart = config.getConfig().getInt("config.playerstostart");

@@ -17,6 +17,7 @@ public class StatsCommand implements CommandExecutor {
     public static int playerkills;
     public static int playerdeaths;
     public static int playerwins;
+    public static int gamesplayed;
     public static String targetname;
 
     public StatsCommand(Main plugin){
@@ -36,6 +37,7 @@ public class StatsCommand implements CommandExecutor {
             playerkills = config.getConfig().getInt("stats.players." + p + ".kills");
             playerdeaths = config.getConfig().getInt("stats.players." + p + ".deaths");
             playerwins = config.getConfig().getInt("stats.players." + p + ".wins");
+            gamesplayed = config.getConfig().getInt("stats.players." + p + ".gamesplayed");
             player.openInventory(UI.GUI(player));
         }
         else if (args.length == 1){
@@ -45,6 +47,7 @@ public class StatsCommand implements CommandExecutor {
                 playerkills = config.getConfig().getInt("stats.players." + targetname + ".kills");
                 playerdeaths = config.getConfig().getInt("stats.players." + targetname + ".deaths");
                 playerwins = config.getConfig().getInt("stats.players." + targetname + ".wins");
+                gamesplayed = config.getConfig().getInt("stats.players." + targetname + ".gamesplayed");
                 player.openInventory(UI2.GUI(player));
 
             } else{

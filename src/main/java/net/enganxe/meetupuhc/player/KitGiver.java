@@ -22,11 +22,11 @@ public class KitGiver {
         PlayerInventory inv =  player.getInventory();
         ItemStack shield = new ItemStack(SHIELD);
         inv.setItemInOffHand(shield);
-        int n = getRandomInt(1);
+        int n = getRandomInt(2);
         if (n == 0){
             ItemStack a = new ItemStack(IRON_SWORD, 1);
             inv.setItem(1, a);
-            int l = getRandomInt(1);
+            int l = getRandomInt(2);
             if (l == 0){
                 a.addEnchantment(Enchantment.DAMAGE_ALL, 2);
             }
@@ -37,7 +37,7 @@ public class KitGiver {
         }
         else if (n == 1){
             ItemStack a = new ItemStack(DIAMOND_SWORD, 1);
-            int l = getRandomInt(2);
+            int l = getRandomInt(3);
             if (l == 0 || l == 1){
                 a.addEnchantment(Enchantment.DAMAGE_ALL, 1);
             }
@@ -48,10 +48,10 @@ public class KitGiver {
         }
         ItemStack a = new ItemStack(COBBLESTONE, 64);
         inv.setItem(1, a);
-        int axee = getRandomInt(1);
+        int axee = getRandomInt(2);
         if (axee == 0){
             ItemStack ax = new ItemStack(IRON_AXE, 1);
-            int ee = getRandomInt(1);
+            int ee = getRandomInt(2);
             if (ee == 0) {
                 ax.addEnchantment(Enchantment.DAMAGE_ALL, 1);
             }
@@ -60,13 +60,13 @@ public class KitGiver {
         }
         else if (axee == 1){
             ItemStack ax = new ItemStack(DIAMOND_AXE, 1);
-            int ee = getRandomInt(1);
+            int ee = getRandomInt(2);
             if (ee == 0) {
                 ax.addEnchantment(Enchantment.DAMAGE_ALL, 1);
             }
             inv.setItem(2, ax);
         }
-        int arcc = getRandomInt(3);
+        int arcc = getRandomInt(4);
         ItemStack bow = new ItemStack(BOW, 1);
         if (arcc == 0 || arcc == 1){
             bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
@@ -78,13 +78,13 @@ public class KitGiver {
             bow.addEnchantment(Enchantment.ARROW_DAMAGE, 3);
         }
         inv.setItem(3, bow);
-        int cob = getRandomInt(2);;
+        int cob = getRandomInt(3);;
         if (cob == 2){
             ItemStack co = new ItemStack(COBWEB, 24);
             inv.setItem(4, co);
         }
 
-        int low = 6;
+        int low = 5;
         int high = 11;
         Random gaap = new Random();
         int gap = gaap.nextInt(high-low) + low;
@@ -127,11 +127,10 @@ public class KitGiver {
         inv.addItem(flechas);
 
         // Armor
-        Random helm = new Random();
-        int hel = helm.nextInt(1);
+        int hel = getRandomInt(1);
         if (hel == 0){
             ItemStack helmet = new ItemStack(IRON_HELMET);
-            int en = getRandomInt(1);
+            int en = getRandomInt(2);
             if (en == 0){
                 helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
             }
@@ -142,7 +141,7 @@ public class KitGiver {
         }
         else if (hel == 1){
             ItemStack helmet = new ItemStack(DIAMOND_HELMET);
-            int en = getRandomInt(3);
+            int en = getRandomInt(4);
             if (en == 0 || en == 1){
                 helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
             }
@@ -156,7 +155,7 @@ public class KitGiver {
         }
 
 
-        int ches = getRandomInt(1);
+        int ches = getRandomInt(2);
         if (ches == 0){
             ItemStack chestplate = new ItemStack(IRON_CHESTPLATE);
             int en = getRandomInt(3);
@@ -170,7 +169,7 @@ public class KitGiver {
         }
         else if (ches == 1){
             ItemStack chestplate = new ItemStack(DIAMOND_CHESTPLATE);
-            int en = getRandomInt(3);
+            int en = getRandomInt(4);
             if (en == 0 || en == 1){
                 chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
             }
@@ -182,10 +181,10 @@ public class KitGiver {
             }
             inv.setChestplate(chestplate);
         }
-        int leg = getRandomInt(1);
+        int leg = getRandomInt(2);
         if (leg == 0){
             ItemStack leggings = new ItemStack(IRON_LEGGINGS);
-            int en = getRandomInt(2);
+            int en = getRandomInt(3);
             if (en == 0 || en == 1){
                 leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
             }
@@ -196,7 +195,7 @@ public class KitGiver {
         }
         else if (leg == 1){
             ItemStack leggings = new ItemStack(DIAMOND_LEGGINGS);
-            int en = getRandomInt(3);
+            int en = getRandomInt(4);
             if (en == 0 || en == 1){
                 leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
             }
@@ -208,10 +207,10 @@ public class KitGiver {
             }
             inv.setLeggings(leggings);
         }
-        int boots = getRandomInt(1);
+        int boots = getRandomInt(2);
         if (boots == 0){
             ItemStack bootss = new ItemStack(IRON_BOOTS);
-            int en = getRandomInt(2);
+            int en = getRandomInt(3);
             if (en == 0 || en == 1){
                 bootss.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
             }
@@ -222,7 +221,7 @@ public class KitGiver {
         }
         else if (boots == 1){
             ItemStack bootss = new ItemStack(DIAMOND_BOOTS);
-            int en = getRandomInt(2);
+            int en = getRandomInt(4);
             if (en == 0 || en == 1){
                 bootss.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
             }

@@ -11,9 +11,8 @@ commands:
     permission: meetup.admin
   stats:
     description: See the meetup stats
-  worldmeetup:
-    description: Go to meetup world
-    permission: meetup.admin
+  topstats:
+    description: See the top stats
 permissions:
   meetup.admin:
     description: All Commands

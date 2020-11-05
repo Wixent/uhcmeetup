@@ -123,6 +123,10 @@ public class AutoStartEvent implements Listener {
                                 for(PotionEffect effect : all.getActivePotionEffects()){
                                     all.removePotionEffect(effect.getType());
                                 }
+                                int gplayed = config.getConfig().getInt("stats." + all + ".gamesplayed");
+                                config.getConfig().set("stats." + all + ".gamesplayed", gplayed + 1);
+                                config.saveConfig();
+
                             }
                             int mplayed = config.getConfig().getInt("stats.Played");
                             config.getConfig().set("stats.Played", mplayed + 1);

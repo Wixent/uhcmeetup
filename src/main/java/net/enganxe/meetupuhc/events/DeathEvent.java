@@ -51,8 +51,9 @@ public class DeathEvent implements Listener {
             config.getConfig().set("stats.players." + palive + ".wins", wins + 1);
             config.saveConfig();
             Bukkit.broadcastMessage("" + ChatColor.YELLOW + palive + ChatColor.GOLD + " won the Meetup!");
+            Main.finalized = true;
             Main.PlayersAlive.clear();
-            Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 20 seconds");
+            Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 30 seconds");
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -61,7 +62,7 @@ public class DeathEvent implements Listener {
                     String command = "restart";
                     Bukkit.dispatchCommand(console, command);
                 }
-            }, 400L);
+            }, 600L);
         }
     }
 }
