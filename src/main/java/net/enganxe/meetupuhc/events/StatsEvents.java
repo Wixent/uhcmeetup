@@ -2,6 +2,7 @@ package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -48,10 +49,13 @@ public class StatsEvents implements Listener {
     @EventHandler
     public void quit(PlayerQuitEvent e){
         String player = e.getPlayer().getName();
-        if (started && !finalized){
-            int deaths = config.getConfig().getInt("stats.players." + player + ".deaths");
-            config.getConfig().set("stats.players." + player + ".deaths", deaths + 1);
-            config.saveConfig();
+        Player p = e.getPlayer();
+        if (p.getGameMode() == GameMode.SURVIVAL) {
+            if (started && !finalized) {
+                int deaths = config.getConfig().getInt("stats.players." + player + ".deaths");
+                config.getConfig().set("stats.players." + player + ".deaths", deaths + 1);
+                config.saveConfig();
+            }
         }
     }
 
