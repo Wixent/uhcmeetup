@@ -34,7 +34,7 @@ public class TimeBomb implements Listener {
         final Location loc = player.getLocation().clone();
 
         Block leftSide = loc.getBlock();
-        Block rightSide = loc.clone().add(0, 0, -1).getBlock();
+        Block rightSide = loc.clone().add(-1, 0, 0).getBlock();
 
         leftSide.setType(Material.CHEST);
         rightSide.setType(Material.CHEST);

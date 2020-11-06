@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 
 import java.util.Objects;
 import java.util.Random;
@@ -47,6 +48,14 @@ public class AutoStartEvent implements Listener {
                     public void run() {
                         time = time - 1;
                         if (time == 60){
+                            ScoreboardManager manager = Bukkit.getScoreboardManager();
+                            Scoreboard board = manager.getNewScoreboard();
+                            Objective objective = board.registerNewObjective("Health", "dummy");
+                            objective.setDisplayName("Player Health");
+                            objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+                            Score h = objective.getScore("" + ChatColor.RED + "❤ " + p.getHealth());
+                            h.setScore(1);
+                            p.setScoreboard(board);
                             WorldCreator.setWorldBorder();
                             worldd.setGameRule(GameRule.NATURAL_REGENERATION, false);
                             worldd.setGameRule(GameRule.DO_MOB_SPAWNING, false);
@@ -119,12 +128,13 @@ public class AutoStartEvent implements Listener {
                                 }
                             }
                             for (Player all : Bukkit.getOnlinePlayers()) {
+                                all.setInvulnerable(false);
                                 all.playSound(all.getLocation(), Sound.BLOCK_ANCIENT_DEBRIS_BREAK, 10, 1);
                                 for(PotionEffect effect : all.getActivePotionEffects()){
                                     all.removePotionEffect(effect.getType());
                                 }
-                                int gplayed = config.getConfig().getInt("stats." + all + ".gamesplayed");
-                                config.getConfig().set("stats." + all + ".gamesplayed", gplayed + 1);
+                                int gplayed = config.getConfig().getInt("stats.players." + all + ".gamesplayed");
+                                config.getConfig().set("stats.players." + all + ".gamesplayed", gplayed + 1);
                                 config.saveConfig();
 
                             }

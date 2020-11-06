@@ -10,6 +10,7 @@ import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.guis.TopUI;
 import net.enganxe.meetupuhc.guis.UI2;
 import net.enganxe.meetupuhc.player.Scoreboards;
+import net.enganxe.meetupuhc.scenarios.NoClean;
 import net.enganxe.meetupuhc.scenarios.TimeBomb;
 import net.enganxe.meetupuhc.guis.UI;
 import org.bukkit.Bukkit;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +31,7 @@ public final class Main extends JavaPlugin implements Listener {
     public static boolean started;
     public static boolean finalized;
     public static List<Player> PlayersAlive = new ArrayList<Player>();
-    private AutoStartEvent scatterClass;
     public static int PlayersToStart;
-    private Connection connection;
-    public String host, database, username, password, table;
-    public int port;
 
     public static Map<String, FastBoard> boards = new HashMap<>();
 
@@ -44,6 +40,7 @@ public final class Main extends JavaPlugin implements Listener {
         this.config = new ConfigFile(this);
         getServer().getPluginManager().registerEvents(new HubEvents(this), this);
         new TimeBomb(this);
+        new NoClean(this);
         new AutoStartEvent(this);
         new InventoryClick(this);
         new StatsCommand(this);

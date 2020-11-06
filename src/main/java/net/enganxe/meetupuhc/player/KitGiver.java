@@ -8,6 +8,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.bukkit.Material.*;
@@ -101,6 +104,10 @@ public class KitGiver {
         assert headName != null;
         gheadMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
                 headName));
+        List<String> loresList = new ArrayList<String>();
+        loresList.add("When you eat a golden head");
+        loresList.add("you gain 8 seconds of regeneration II");
+        gheadMeta.setLore(loresList);
         ghead.setItemMeta(gheadMeta);
         inv.setItem(6, ghead);
         ItemStack lava = new ItemStack(LAVA_BUCKET, 1);

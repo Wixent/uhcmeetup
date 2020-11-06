@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -64,8 +65,8 @@ public class HubEvents implements Listener {
             PlayerInventory inv =  player.getInventory();
             inv.clear();
             scatter(player);
-            KitGiver.setInv(player);
             event.setJoinMessage("");
+            KitGiver.setInv(player);
 
         }
         else if (Main.started){
@@ -146,12 +147,13 @@ public class HubEvents implements Listener {
         }
     }
     @EventHandler
-    public void onEat(PlayerItemConsumeEvent e) {
+    public void onConsume(PlayerItemConsumeEvent e) {
         if (e.getItem().getType() == Material.GOLDEN_APPLE) {
-            if (e.getItem().getItemMeta().getDisplayName().equals(config.getConfig().getString("config.goldenhead"))) {
+            ItemStack goldenHead = e.getItem();
+            if (Objects.requireNonNull(goldenHead.getItemMeta()).hasLore()) {
                 Player p = e.getPlayer();
                 p.removePotionEffect(PotionEffectType.REGENERATION);
-                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 9, 2));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 1));
             }
         }
     }
