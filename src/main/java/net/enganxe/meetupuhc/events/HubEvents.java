@@ -29,9 +29,11 @@ import static net.enganxe.meetupuhc.Main.*;
 
 public class HubEvents implements Listener {
     private Main plugin;
-    public HubEvents(Main plugin){
+
+    public HubEvents(Main plugin) {
         this.plugin = plugin;
     }
+
     @EventHandler
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -55,27 +57,22 @@ public class HubEvents implements Listener {
             msg = msg.replace("%player%", player.getName());
             msg = msg.replace("%needplayers%", needPlayer);
             event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
-        }
-        else if (Main.starting){
+        } else if (Main.starting) {
             player.setAllowFlight(false);
             player.setGameMode(GameMode.SURVIVAL);
             player.setStatistic(Statistic.PLAYER_KILLS, 0);
             player.setHealth(20);
             player.setFoodLevel(20);
-            PlayerInventory inv =  player.getInventory();
-            inv.clear();
-            scatter(player);
             event.setJoinMessage("");
-            KitGiver.setInv(player);
 
-        }
-        else if (Main.started){
+        } else if (Main.started) {
             event.setJoinMessage("");
             player.setGameMode(GameMode.SPECTATOR);
             Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 200, 0);
             player.teleport(loc);
         }
     }
+
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
@@ -85,21 +82,17 @@ public class HubEvents implements Listener {
         if (board != null) {
             board.delete();
         }
-        if (!Main.starting && !Main.started){
+        if (!Main.starting && !Main.started) {
             String msg = Main.config.getConfig().getString("messages.quit");
             msg = msg.replace("%player%", player.getName());
             e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', msg));
-        }
-        else if (starting && !started){
+        } else if (starting && !started) {
             e.setQuitMessage("");
-            Main.PlayersAlive.remove(player);
-        }
-        else if (Main.started){
+        } else if (Main.started) {
             Main.PlayersAlive.remove(player);
             if (player.getGameMode() != GameMode.SURVIVAL) {
                 e.setQuitMessage("");
-            }
-            else if (player.getGameMode() == GameMode.SURVIVAL){
+            } else if (player.getGameMode() == GameMode.SURVIVAL) {
                 e.setQuitMessage(ChatColor.YELLOW + player.getName() + ChatColor.GOLD + " has left");
             }
             if (Main.PlayersAlive.size() == 1) {
@@ -123,29 +116,33 @@ public class HubEvents implements Listener {
         }
 
     }
+
     @EventHandler
-    public void BreakBlock(BlockBreakEvent e){
-        if (!Main.started || finalized){
+    public void BreakBlock(BlockBreakEvent e) {
+        if (!Main.started || finalized) {
             Player player = e.getPlayer();
-            if (!player.hasPermission("meetup.admin")){
+            if (!player.hasPermission("meetup.admin")) {
                 e.setCancelled(true);
             }
         }
 
     }
+
     @EventHandler
-    public void Hunger(FoodLevelChangeEvent e){
-        if (!Main.started || finalized){
+    public void Hunger(FoodLevelChangeEvent e) {
+        if (!Main.started || finalized) {
             e.setFoodLevel(20);
             e.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void onDamage(EntityDamageEvent e){
-        if (!Main.started || finalized){
+    public void onDamage(EntityDamageEvent e) {
+        if (!Main.started || finalized) {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent e) {
         if (e.getItem().getType() == Material.GOLDEN_APPLE) {
@@ -156,68 +153,5 @@ public class HubEvents implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 1));
             }
         }
-    }
-
-    public void scatter(Player p){
-        p.getInventory().clear();
-        String world = config.getConfig().getString("worlds.meetup_world");
-        int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Random rand = new Random();
-                int x = rand.nextInt(worldborder/2);
-                int z = rand.nextInt(worldborder/2);
-                if (rand.nextInt(100) <= 49) {
-                    x = -1 * x;
-                }
-                if (rand.nextInt(100) <= 49) {
-                    z = -1 * z;
-                }
-                int y = 1;
-                assert world != null;
-                if (Objects.requireNonNull(Bukkit.getWorld(world)).getHighestBlockAt(x, z).getY() < 120) {
-                    y = Objects.requireNonNull(p.getServer().getWorld(world)).getHighestBlockYAt(x, z) + 2;
-
-                    if (Objects.requireNonNull(Bukkit.getWorld(world)).getBlockAt(x, y, z).getType() == Material.WATER) {
-                        rand = new Random();
-                        x = rand.nextInt(worldborder/2);
-                        z = rand.nextInt(worldborder/2);
-                        if (rand.nextInt(100) <= 49) {
-                            x = -1 * x;
-                        }
-                        if (rand.nextInt(100) <= 49) {
-                            z = -1 * z;
-                        }
-                        y = Objects.requireNonNull(p.getServer().getWorld(world)).getHighestBlockYAt(x, z) + 2;
-                    }
-                } else {
-                    rand = new Random();
-                    x = rand.nextInt(worldborder/2);
-                    z = rand.nextInt(worldborder/2);
-                    if (rand.nextInt(100) <= 49) {
-                        x = -1 * x;
-                    }
-                    if (rand.nextInt(100) <= 49) {
-                        z = -1 * z;
-                    }
-                }
-                p.teleport(new Location(Bukkit.getWorld(world), x, y, z));
-                p.setGameMode(GameMode.SURVIVAL);
-                Main.PlayersAlive.add(p);
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        Location loc = p.getLocation();
-                        ArmorStand stand = p.getLocation().getWorld().spawn(loc, ArmorStand.class);
-                        stand.setVisible(false);
-                        stand.setInvulnerable(true);
-                        stand.setCollidable(false);
-                        stand.addPassenger(p);
-                    }
-                }, 3);
-
-            }
-        }.runTaskLater(this.plugin, 5);
     }
 }

@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
@@ -34,7 +36,16 @@ public class AutoStartEvent implements Listener {
     public void join(PlayerJoinEvent event) {
         Player p = event.getPlayer();
         if (starting && !started){
+            ScoreboardManager manager = Bukkit.getScoreboardManager();
+            Scoreboard board = manager.getNewScoreboard();
+            Objective objective = board.registerNewObjective("Health", "health");
+            objective.setDisplayName(ChatColor.RED + "❤");
+            objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            p.setScoreboard(board);
+            PlayerInventory inv =  p.getInventory();
+            inv.clear();
             scatter(p);
+            KitGiver.setInv(p);
             return;
         }
         Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
@@ -48,14 +59,6 @@ public class AutoStartEvent implements Listener {
                     public void run() {
                         time = time - 1;
                         if (time == 60){
-                            ScoreboardManager manager = Bukkit.getScoreboardManager();
-                            Scoreboard board = manager.getNewScoreboard();
-                            Objective objective = board.registerNewObjective("Health", "dummy");
-                            objective.setDisplayName("Player Health");
-                            objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-                            Score h = objective.getScore("" + ChatColor.RED + "❤ " + p.getHealth());
-                            h.setScore(1);
-                            p.setScoreboard(board);
                             WorldCreator.setWorldBorder();
                             worldd.setGameRule(GameRule.NATURAL_REGENERATION, false);
                             worldd.setGameRule(GameRule.DO_MOB_SPAWNING, false);
@@ -68,6 +71,12 @@ public class AutoStartEvent implements Listener {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
                                 scatter(all);
                                 KitGiver.setInv(all);
+                                ScoreboardManager manager = Bukkit.getScoreboardManager();
+                                Scoreboard board = manager.getNewScoreboard();
+                                Objective objective = board.registerNewObjective("Health", "health");
+                                objective.setDisplayName(ChatColor.RED + "❤");
+                                objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+                                all.setScoreboard(board);
                             }
                         }
                         if (time == 30) {
@@ -118,16 +127,11 @@ public class AutoStartEvent implements Listener {
                         }
                         if (time == 0) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "The Meetup has been " + ChatColor.LIGHT_PURPLE + "started!");
-                            Main.started = true;
-                            Main.starting = false;
+
                             WorldBorderSh();
                             assert world != null;
-                            for(Entity stand : Objects.requireNonNull(Bukkit.getServer().getWorld(world)).getEntities()){
-                                if (stand.getType() == EntityType.ARMOR_STAND){
-                                    stand.remove();
-                                }
-                            }
                             for (Player all : Bukkit.getOnlinePlayers()) {
+                                Main.PlayersAlive.add(all);
                                 all.setInvulnerable(false);
                                 all.playSound(all.getLocation(), Sound.BLOCK_ANCIENT_DEBRIS_BREAK, 10, 1);
                                 for(PotionEffect effect : all.getActivePotionEffects()){
@@ -141,6 +145,8 @@ public class AutoStartEvent implements Listener {
                             int mplayed = config.getConfig().getInt("stats.Played");
                             config.getConfig().set("stats.Played", mplayed + 1);
                             config.saveConfig();
+                            Main.starting = false;
+                            Main.started = true;
                         }
                     }
                 },0L, 20L);
@@ -175,7 +181,12 @@ public class AutoStartEvent implements Listener {
         }
     }
     public void scatter(Player p){
-        p.getInventory().clear();
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 200));
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
         new BukkitRunnable() {
@@ -221,18 +232,6 @@ public class AutoStartEvent implements Listener {
                 p.setStatistic(Statistic.PLAYER_KILLS, 0);
                 p.teleport(new Location(Bukkit.getWorld(world), x, y, z));
                 p.setGameMode(GameMode.SURVIVAL);
-                Main.PlayersAlive.add(p);
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        Location loc = p.getLocation();
-                        ArmorStand stand = p.getLocation().getWorld().spawn(loc, ArmorStand.class);
-                        stand.setVisible(false);
-                        stand.setInvulnerable(true);
-                        stand.setCollidable(false);
-                        stand.addPassenger(p);
-                    }
-                }, 3);
 
             }
         }.runTaskLater(this.plugin, 5);

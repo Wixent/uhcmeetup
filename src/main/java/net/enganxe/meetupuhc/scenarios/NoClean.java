@@ -1,16 +1,17 @@
 package net.enganxe.meetupuhc.scenarios;
 
 import net.enganxe.meetupuhc.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class NoClean implements Listener {
     private final Main plugin;
+    int time;
     public NoClean(Main plugin){
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -19,14 +20,21 @@ public class NoClean implements Listener {
     public void noClean(EntityDeathEvent e){
             if (e.getEntity().getType() == EntityType.PLAYER && e.getEntity().getKiller().getType() == EntityType.PLAYER){
                 e.getEntity().getKiller().setInvulnerable(true);
-                e.getEntity().getKiller().sendMessage((ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET + "You are currently immune for 20 seconds unless you hit someone."));
-                new BukkitRunnable() {
+                e.getEntity().getKiller().sendMessage((ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET + "You are currently immune for " + Main.config.getConfig().getInt("config.nocleantime") +  " seconds unless you hit someone."));
+                time = Main.config.getConfig().getInt("config.nocleantime");
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
                     @Override
                     public void run() {
-                        e.getEntity().getKiller().setInvulnerable(false);
-                        e.getEntity().getKiller().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET + "You have lost your invulnerability.");
+                        time--;
+                        if (time >= 2){
+                            e.getEntity().getKiller().sendMessage(ChatColor.RED + "You are going to lose your invulnerability in " + time + "s");
+                        }
+                        if (time == 1) {
+                            e.getEntity().getKiller().setInvulnerable(false);
+                            e.getEntity().getKiller().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET + "You have lost your invulnerability.");
+                        }
                     }
-                }.runTaskLater(plugin, 400L);
+                },0L, 20L);
         }
     }
 

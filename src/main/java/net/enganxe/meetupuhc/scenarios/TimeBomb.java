@@ -90,7 +90,7 @@ public class TimeBomb implements Listener {
         stand.setMarker(true);
 
         new BukkitRunnable() {
-            private int time = 30; // add one for countdown.
+            private int time = 30;
 
             public void run() {
                 time--;
@@ -98,7 +98,7 @@ public class TimeBomb implements Listener {
                 if (time == 0) {
                     Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "Meetup" + ChatColor.DARK_GRAY + "] " + "§a" + player.getName() + "'s §fcorpse has exploded!");
                     loc.getBlock().setType(Material.AIR);
-                    loc.getWorld().createExplosion(loc.getBlockX() + 0.5, loc.getBlockY() + 0.5, loc.getBlockZ() + 0.5, 6, false, true);
+                    loc.getWorld().createExplosion(loc.getBlockX() + 0.5, loc.getBlockY() + 0.5, loc.getBlockZ() + 0.5, 3, false, true);
                     loc.getWorld().strikeLightning(loc);
                     stand.remove();
                     cancel();

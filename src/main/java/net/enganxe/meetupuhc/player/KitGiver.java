@@ -118,6 +118,7 @@ public class KitGiver {
         ItemStack enchants = new ItemStack(ENCHANTING_TABLE, 1);
         ItemStack pickaxe = new ItemStack(DIAMOND_PICKAXE, 1);
         ItemStack botella = new ItemStack(EXPERIENCE_BOTTLE, 64);
+        ItemStack lapis = new ItemStack(LAPIS_LAZULI, 64);
         ItemStack mesa = new ItemStack(SMITHING_TABLE, 1);
         ItemStack comida = new ItemStack(COOKED_BEEF, 64);
         ItemStack flechas = new ItemStack(ARROW, 64);
@@ -127,6 +128,7 @@ public class KitGiver {
         inv.addItem(enchants);
         inv.addItem(pickaxe);
         inv.addItem(botella);
+        inv.addItem(lapis);
         inv.addItem(mesa);
         inv.addItem(lava);
         inv.addItem(water);

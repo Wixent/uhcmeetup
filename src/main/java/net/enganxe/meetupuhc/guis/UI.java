@@ -24,7 +24,6 @@ public class UI {
         Utils.createItem(inv, "iron_sword", 1, 13, "&bKills&8:&7 " + StatsCommand.playerkills);
         Utils.createItem(inv, "bone", 1, 14, "&cDeaths&7: " + StatsCommand.playerdeaths);
         Utils.createItem(inv, "diamond", 1, 15, "&aWins&8:&7 " + StatsCommand.playerwins);
-        Utils.createItem(inv, "golden_apple", 1, 16, "&dGames Played&8:&7 " + StatsCommand.gamesplayed);
         toReturn.setContents(inv.getContents());
         return toReturn;
     }
