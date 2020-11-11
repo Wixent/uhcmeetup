@@ -36,6 +36,10 @@ public class KitGiver {
             if (l == 1){
                 a.addEnchantment(Enchantment.DAMAGE_ALL, 3);
             }
+            int fi = getRandomInt(49);
+            if (fi == 0){
+                a.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+            }
             inv.setItem(0, a);
         }
         else if (n == 1){
@@ -80,6 +84,10 @@ public class KitGiver {
         else if (arcc == 3){
             bow.addEnchantment(Enchantment.ARROW_DAMAGE, 3);
         }
+        int fl = getRandomInt(49);
+        if (fl == 0){
+            bow.addEnchantment(Enchantment.ARROW_FIRE, 1);
+        }
         inv.setItem(3, bow);
         int cob = getRandomInt(3);;
         if (cob == 2){
@@ -105,8 +113,8 @@ public class KitGiver {
         gheadMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
                 headName));
         List<String> loresList = new ArrayList<String>();
-        loresList.add("When you eat a golden head");
-        loresList.add("you gain 8 seconds of regeneration II");
+        loresList.add("When you eat a golden head,");
+        loresList.add("You gain 8 seconds of Regeneration II");
         gheadMeta.setLore(loresList);
         ghead.setItemMeta(gheadMeta);
         inv.setItem(6, ghead);
@@ -122,8 +130,13 @@ public class KitGiver {
         ItemStack mesa = new ItemStack(SMITHING_TABLE, 1);
         ItemStack comida = new ItemStack(COOKED_BEEF, 64);
         ItemStack flechas = new ItemStack(ARROW, 64);
-
         inv.addItem(a);
+        int tri = getRandomInt(5);
+        if (tri == 0){
+            ItemStack tride = new ItemStack(TRIDENT, 1);
+            tride.addEnchantment(Enchantment.LOYALTY, 1);
+            inv.addItem(tride);
+        }
         inv.addItem(anvil);
         inv.addItem(enchants);
         inv.addItem(pickaxe);

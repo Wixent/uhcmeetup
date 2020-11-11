@@ -1,7 +1,6 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import net.minecraft.server.v1_16_R1.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;

@@ -13,6 +13,9 @@ commands:
     description: See the meetup stats
   topstats:
     description: See the top stats
+  forcestart:
+    description: Force Start the Meetup
+    permission: meetup.admin
 permissions:
   meetup.admin:
     description: All Commands

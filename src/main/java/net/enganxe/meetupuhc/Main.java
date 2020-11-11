@@ -1,5 +1,6 @@
 package net.enganxe.meetupuhc;
 
+import net.enganxe.meetupuhc.commands.ForceStartCommand;
 import net.enganxe.meetupuhc.commands.ReloadCommand;
 import net.enganxe.meetupuhc.commands.StatsCommand;
 import net.enganxe.meetupuhc.commands.TopStatsCommand;
@@ -46,6 +47,7 @@ public final class Main extends JavaPlugin implements Listener {
         new StatsCommand(this);
         new ReloadCommand(this);
         new TopStatsCommand(this);
+        new ForceStartCommand(this);
         new DeathEvent(this);
         new StatsEvents(this);
         new FightEvents(this);
