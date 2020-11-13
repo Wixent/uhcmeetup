@@ -11,6 +11,9 @@ commands:
     permission: meetup.admin
   stats:
     description: See the meetup stats
+  forcestart:
+    permission: meetup.admin
+    decription: Starts the meetup
 permissions:
   meetup.admin:
     description: All Commands
