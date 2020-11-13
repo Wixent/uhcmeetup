@@ -21,6 +21,8 @@ public class WorldCreator {
             World world = Bukkit.getWorld(Objects.requireNonNull(config.getConfig().getString("worlds.lobby_world")));
             assert world != null;
             world.setDifficulty(Difficulty.PEACEFUL);
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
 
         }
     }
@@ -94,6 +96,7 @@ public class WorldCreator {
         World world = Bukkit.getWorld(Objects.requireNonNull(config.getConfig().getString("worlds.meetup_world")));
         assert world != null;
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
     }
     public static void deleteWorld(){
         File worldFolder = new File(Objects.requireNonNull(config.getConfig().getString("worlds.meetup_world")));
@@ -108,5 +111,6 @@ public class WorldCreator {
         World world = Bukkit.getWorld(Objects.requireNonNull(config.getConfig().getString("worlds.meetup_world")));
         WorldBorder worldBorder = world.getWorldBorder();
         worldBorder.setSize(config.getConfig().getInt("config.worldborder"));
+        worldBorder.setDamageBuffer(0);
     }
 }

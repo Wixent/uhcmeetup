@@ -126,8 +126,9 @@ public class ForceStartCommand implements CommandExecutor {
                             for (PotionEffect effect : all.getActivePotionEffects()) {
                                 all.removePotionEffect(effect.getType());
                             }
-                            int gplayed = config.getConfig().getInt("stats.players." + all + ".gamesplayed");
-                            config.getConfig().set("stats.players." + all + ".gamesplayed", gplayed + 1);
+                            String pa = all.getName();
+                            int gplayed = config.getConfig().getInt("stats.players." + pa + ".gamesplayed");
+                            config.getConfig().set("stats.players." + pa + ".gamesplayed", gplayed + 1);
                             config.saveConfig();
 
                         }
@@ -172,12 +173,9 @@ public class ForceStartCommand implements CommandExecutor {
     }
 
     public void scatter(Player p) {
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 200));
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
         new BukkitRunnable() {

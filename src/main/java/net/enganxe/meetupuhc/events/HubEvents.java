@@ -4,8 +4,10 @@ import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.KitGiver;
 import org.bukkit.*;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,18 +15,17 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.Objects;
-import java.util.Random;
 
 import static net.enganxe.meetupuhc.Main.*;
 
@@ -44,6 +45,11 @@ public class HubEvents implements Listener {
         player.setBedSpawnLocation(new Location(Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world")), 0, 100, 0));
         player.setStatistic(Statistic.PLAYER_KILLS, 0);
         if (!Main.starting && !Main.started) {
+            World wmeetup = Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world"));
+            wmeetup.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            wmeetup.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+            wmeetup.setTime(9000);
+            wmeetup.setStorm(false);
             Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
             int neededPlayers = Main.PlayersToStart - Bukkit.getOnlinePlayers().size();
             player.setGameMode(GameMode.SURVIVAL);
@@ -51,6 +57,8 @@ public class HubEvents implements Listener {
             player.teleport(loc);
             player.setHealth(20);
             player.setFoodLevel(20);
+            player.setLevel(0);
+            player.setExp(0.0f);
             Inventory inv = player.getInventory();
             inv.clear();
             String msg = config.getConfig().getString("messages.join");
@@ -63,6 +71,7 @@ public class HubEvents implements Listener {
             player.setGameMode(GameMode.SURVIVAL);
             player.setStatistic(Statistic.PLAYER_KILLS, 0);
             player.setHealth(20);
+            player.setExp(0.0f);
             player.setFoodLevel(20);
             event.setJoinMessage("");
 
@@ -71,6 +80,12 @@ public class HubEvents implements Listener {
             player.setGameMode(GameMode.SPECTATOR);
             Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 200, 0);
             player.teleport(loc);
+            ScoreboardManager manager = Bukkit.getScoreboardManager();
+            Scoreboard boardd = manager.getNewScoreboard();
+            Objective objective = boardd.registerNewObjective("Health", "health");
+            objective.setDisplayName(ChatColor.RED + "❤");
+            objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            player.setScoreboard(boardd);
         }
     }
 
@@ -160,6 +175,16 @@ public class HubEvents implements Listener {
                 Player p = e.getPlayer();
                 p.removePotionEffect(PotionEffectType.REGENERATION);
                 p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 1));
+            }
+        }
+    }
+    @EventHandler
+    public void EntityInteractEvent(PlayerInteractAtEntityEvent e){
+        if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+            if (e.getRightClicked().getType() == EntityType.PLAYER) {
+                Player p = e.getPlayer();
+                String t = (String) e.getRightClicked().getName().toString();
+                p.chat("/examine " + t);
             }
         }
     }

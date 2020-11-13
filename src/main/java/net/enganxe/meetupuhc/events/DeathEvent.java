@@ -55,9 +55,6 @@ public class DeathEvent implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    for (Player all : Bukkit.getOnlinePlayers()) {
-                        all.chat("/hub");
-                    }
                     Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
                     ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
                     String command = "restart";

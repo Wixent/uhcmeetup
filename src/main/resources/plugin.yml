@@ -13,7 +13,9 @@ commands:
     description: See the meetup stats
   forcestart:
     permission: meetup.admin
-    decription: Starts the meetup
+    description: Starts the meetup
+  examine:
+    description: See inventory of player
 permissions:
   meetup.admin:
     description: All Commands

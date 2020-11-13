@@ -44,13 +44,16 @@ public class AutoStartEvent implements Listener {
             p.setScoreboard(board);
             PlayerInventory inv =  p.getInventory();
             inv.clear();
+            p.setLevel(0);
             scatter(p);
+            World world = p.getWorld();
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
             KitGiver.setInv(p);
             return;
         }
         Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
         String world = config.getConfig().getString("worlds.meetup_world");
-        World worldd = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));;
+        World worldd = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));
         if (Bukkit.getOnlinePlayers().size() == Main.PlayersToStart) {
             if (!Main.started && !Main.starting) {
                 time = 61;
@@ -130,8 +133,6 @@ public class AutoStartEvent implements Listener {
                         }
                         if (time == 0) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "The Meetup has been " + ChatColor.LIGHT_PURPLE + "started!");
-
-                            WorldBorderSh();
                             assert world != null;
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 Main.PlayersAlive.add(all);
@@ -140,8 +141,9 @@ public class AutoStartEvent implements Listener {
                                 for(PotionEffect effect : all.getActivePotionEffects()){
                                     all.removePotionEffect(effect.getType());
                                 }
-                                int gplayed = config.getConfig().getInt("stats.players." + all + ".gamesplayed");
-                                config.getConfig().set("stats.players." + all + ".gamesplayed", gplayed + 1);
+                                String pa = all.getName();
+                                int gplayed = config.getConfig().getInt("stats.players." + pa + ".gamesplayed");
+                                config.getConfig().set("stats.players." + pa + ".gamesplayed", gplayed + 1);
                                 config.saveConfig();
 
                             }
@@ -150,6 +152,7 @@ public class AutoStartEvent implements Listener {
                             config.saveConfig();
                             Main.starting = false;
                             Main.started = true;
+                            WorldBorderSh();
                         }
                     }
                 },0L, 20L);
@@ -157,11 +160,7 @@ public class AutoStartEvent implements Listener {
         }
     }
     public void WorldBorderSh() {
-        if (Main.started && !enablewb) {
-            enablewb = true;
             wtime = 61;
-        }
-        if (Main.started && enablewb) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -182,13 +181,10 @@ public class AutoStartEvent implements Listener {
                 }
             }, 0L, 20L);
         }
-    }
     public void scatter(Player p){
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2147483647, 200));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 200));
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
         new BukkitRunnable() {

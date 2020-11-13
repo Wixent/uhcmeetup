@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -130,6 +129,8 @@ public class KitGiver {
         ItemStack mesa = new ItemStack(SMITHING_TABLE, 1);
         ItemStack comida = new ItemStack(COOKED_BEEF, 64);
         ItemStack flechas = new ItemStack(ARROW, 64);
+        ItemStack mesacrafteo = new ItemStack(CRAFTING_TABLE, 1);
+        ItemStack books = new ItemStack(BOOK, 3);
         inv.addItem(a);
         int tri = getRandomInt(5);
         if (tri == 0){
@@ -137,11 +138,18 @@ public class KitGiver {
             tride.addEnchantment(Enchantment.LOYALTY, 1);
             inv.addItem(tride);
         }
+        if (tri == 1){
+            ItemStack cro = new ItemStack(CROSSBOW, 1);
+            cro.addEnchantment(Enchantment.PIERCING, 1);
+            inv.addItem(cro);
+        }
         inv.addItem(anvil);
         inv.addItem(enchants);
+        inv.addItem(books);
         inv.addItem(pickaxe);
         inv.addItem(botella);
         inv.addItem(lapis);
+        inv.addItem(mesacrafteo);
         inv.addItem(mesa);
         inv.addItem(lava);
         inv.addItem(water);
@@ -149,7 +157,7 @@ public class KitGiver {
         inv.addItem(flechas);
 
         // Armor
-        int hel = getRandomInt(1);
+        int hel = getRandomInt(2);
         if (hel == 0){
             ItemStack helmet = new ItemStack(IRON_HELMET);
             int en = getRandomInt(2);
