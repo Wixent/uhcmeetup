@@ -20,6 +20,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.bukkit.Material.*;
 
 public class TimeBomb implements Listener {
@@ -67,6 +70,11 @@ public class TimeBomb implements Listener {
         ItemStack e = new ItemStack(Material.GOLD_INGOT, 4);
         ItemStack ghead = new ItemStack(GOLDEN_APPLE, 1);
         ItemMeta gheadMeta = ghead.getItemMeta();
+        List<String> loresList = new ArrayList<String>();
+        loresList.add("When you eat a golden head,");
+        loresList.add("You gain 8 seconds of Regeneration II");
+        gheadMeta.setLore(loresList);
+        ghead.setItemMeta(gheadMeta);
         String headName = Main.config.getConfig().getString("config.goldenhead");
         assert gheadMeta != null;
         assert headName != null;
