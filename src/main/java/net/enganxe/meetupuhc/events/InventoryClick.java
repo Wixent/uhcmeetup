@@ -1,7 +1,6 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import net.enganxe.meetupuhc.guis.TopUI;
 import net.enganxe.meetupuhc.guis.UI;
 import net.enganxe.meetupuhc.guis.UI2;
 import org.bukkit.Bukkit;

@@ -3,12 +3,10 @@ package net.enganxe.meetupuhc;
 import net.enganxe.meetupuhc.commands.ForceStartCommand;
 import net.enganxe.meetupuhc.commands.ReloadCommand;
 import net.enganxe.meetupuhc.commands.StatsCommand;
-import net.enganxe.meetupuhc.commands.TopStatsCommand;
 import net.enganxe.meetupuhc.config.ConfigFile;
 import net.enganxe.meetupuhc.config.WorldCreator;
 import net.enganxe.meetupuhc.events.*;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
-import net.enganxe.meetupuhc.guis.TopUI;
 import net.enganxe.meetupuhc.guis.UI2;
 import net.enganxe.meetupuhc.player.Scoreboards;
 import net.enganxe.meetupuhc.scenarios.NoClean;
@@ -46,7 +44,6 @@ public final class Main extends JavaPlugin implements Listener {
         new InventoryClick(this);
         new StatsCommand(this);
         new ReloadCommand(this);
-        new TopStatsCommand(this);
         new ForceStartCommand(this);
         new DeathEvent(this);
         new StatsEvents(this);
@@ -57,7 +54,6 @@ public final class Main extends JavaPlugin implements Listener {
         WorldCreator.createWorld();
         UI.initialize();
         UI2.initialize();
-        TopUI.initialize();
         started = false;
         starting = false;
         finalized = false;
