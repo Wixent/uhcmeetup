@@ -32,11 +32,5 @@ public class InventoryClick implements Listener {
                 return;
             }
         }
-        else if (title.equals(TopUI.inventory_name)){
-            e.setCancelled(true);
-            if (e.getCurrentItem() == null){
-                return;
-            }
-        }
     }
 }
