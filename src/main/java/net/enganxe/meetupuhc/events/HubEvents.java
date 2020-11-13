@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -119,13 +120,21 @@ public class HubEvents implements Listener {
 
     @EventHandler
     public void BreakBlock(BlockBreakEvent e) {
+        Player p = e.getPlayer();
         if (!Main.started || finalized) {
-            Player player = e.getPlayer();
-            if (!player.hasPermission("meetup.admin")) {
+            if (p.getGameMode() == GameMode.SURVIVAL) {
                 e.setCancelled(true);
             }
         }
-
+    }
+    @EventHandler
+    public void PlaceBlock(BlockPlaceEvent e) {
+        Player p = e.getPlayer();
+        if (!Main.started || finalized) {
+            if (p.getGameMode() == GameMode.SURVIVAL) {
+                e.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler

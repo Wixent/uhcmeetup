@@ -54,4 +54,5 @@ public class ConfigFile {
             this.plugin.saveResource("config.yml", false);
         }
     }
+
 }

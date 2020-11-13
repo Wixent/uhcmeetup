@@ -25,7 +25,7 @@ public class NoClean implements Listener {
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
                     @Override
                     public void run() {
-                        time--;
+                        --time;
                         if (time >= 2){
                             e.getEntity().getKiller().sendMessage(ChatColor.RED + "You are going to lose your invulnerability in " + time + "s");
                         }

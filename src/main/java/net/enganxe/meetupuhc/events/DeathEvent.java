@@ -1,5 +1,7 @@
 package net.enganxe.meetupuhc.events;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
@@ -7,16 +9,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import static net.enganxe.meetupuhc.Main.config;
 
-;
-
 public class DeathEvent implements Listener {
     private static Main plugin;
+    private Player p;
 
     public DeathEvent (Main plugin){
         this.plugin = plugin;
@@ -57,6 +55,9 @@ public class DeathEvent implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.chat("/hub");
+                    }
                     Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
                     ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
                     String command = "restart";
@@ -64,5 +65,14 @@ public class DeathEvent implements Listener {
                 }
             }, 600L);
         }
+    }
+    public void sendToLobby() {
+        connect(Main.config.getConfig().getString("config.lobby_server"));
+    }
+    public void connect(String server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Connect");
+        out.writeUTF(server);
+        p.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
 }

@@ -64,6 +64,9 @@ public class AutoStartEvent implements Listener {
                             worldd.setGameRule(GameRule.DO_MOB_SPAWNING, false);
                             worldd.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
                             worldd.setGameRule(GameRule.DO_INSOMNIA, false);
+                            worldd.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+                            worldd.setTime(9000);
+                            worldd.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             Main.starting = true;
                             Main.started = false;
@@ -181,7 +184,6 @@ public class AutoStartEvent implements Listener {
         }
     }
     public void scatter(Player p){
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
