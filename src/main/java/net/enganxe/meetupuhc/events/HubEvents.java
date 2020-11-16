@@ -4,13 +4,13 @@ import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.KitGiver;
 import org.bukkit.*;
-import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -142,6 +142,7 @@ public class HubEvents implements Listener {
             }
         }
     }
+
     @EventHandler
     public void PlaceBlock(BlockPlaceEvent e) {
         Player p = e.getPlayer();
@@ -178,8 +179,9 @@ public class HubEvents implements Listener {
             }
         }
     }
+
     @EventHandler
-    public void EntityInteractEvent(PlayerInteractAtEntityEvent e){
+    public void EntityInteractEvent(PlayerInteractAtEntityEvent e) {
         if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) {
             if (e.getRightClicked().getType() == EntityType.PLAYER) {
                 Player p = e.getPlayer();

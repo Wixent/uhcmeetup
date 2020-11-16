@@ -182,9 +182,12 @@ public class AutoStartEvent implements Listener {
             }, 0L, 20L);
         }
     public void scatter(Player p){
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 200));
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
         new BukkitRunnable() {
@@ -203,7 +206,6 @@ public class AutoStartEvent implements Listener {
                 assert world != null;
                 if (Objects.requireNonNull(Bukkit.getWorld(world)).getHighestBlockAt(x, z).getY() < 120) {
                     y = Objects.requireNonNull(p.getServer().getWorld(world)).getHighestBlockYAt(x, z) + 2;
-
                     if (Objects.requireNonNull(Bukkit.getWorld(world)).getBlockAt(x, y, z).getType() == Material.WATER) {
                         rand = new Random();
                         x = rand.nextInt(worldborder/2);

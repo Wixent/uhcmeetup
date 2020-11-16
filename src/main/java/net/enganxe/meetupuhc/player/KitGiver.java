@@ -2,11 +2,15 @@ package net.enganxe.meetupuhc.player;
 
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +39,7 @@ public class KitGiver {
             if (l == 1){
                 a.addEnchantment(Enchantment.DAMAGE_ALL, 3);
             }
-            int fi = getRandomInt(49);
+            int fi = getRandomInt(70);
             if (fi == 0){
                 a.addEnchantment(Enchantment.FIRE_ASPECT, 1);
             }
@@ -124,7 +128,7 @@ public class KitGiver {
         ItemStack anvil = new ItemStack(ANVIL, 1);
         ItemStack enchants = new ItemStack(ENCHANTING_TABLE, 1);
         ItemStack pickaxe = new ItemStack(DIAMOND_PICKAXE, 1);
-        ItemStack botella = new ItemStack(EXPERIENCE_BOTTLE, 64);
+        ItemStack botella = new ItemStack(EXPERIENCE_BOTTLE, 24);
         ItemStack lapis = new ItemStack(LAPIS_LAZULI, 64);
         ItemStack mesa = new ItemStack(SMITHING_TABLE, 1);
         ItemStack comida = new ItemStack(COOKED_BEEF, 64);
@@ -142,6 +146,28 @@ public class KitGiver {
             ItemStack cro = new ItemStack(CROSSBOW, 1);
             cro.addEnchantment(Enchantment.PIERCING, 1);
             inv.addItem(cro);
+        }
+        int mi = getRandomInt(6);
+        if (mi == 0){
+            ItemStack p = new ItemStack(POTION, 1);
+            PotionMeta meta = (PotionMeta) p.getItemMeta();
+            int po = getRandomInt(3);
+            if (po == 0){
+                meta.setMainEffect(PotionEffectType.SPEED);
+                PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 180, 1);
+                meta.addCustomEffect(speed, true);
+            }
+            if (po == 1){
+                meta.setMainEffect(PotionEffectType.POISON);
+                PotionEffect poison = new PotionEffect(PotionEffectType.POISON, 60, 1);
+                meta.addCustomEffect(poison, true);
+            }
+            if (po == 2){
+                meta.setMainEffect(PotionEffectType.FIRE_RESISTANCE);
+                PotionEffect fire = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 300, 1);
+                meta.addCustomEffect(fire, true);
+            }
+            inv.addItem(p);
         }
         inv.addItem(anvil);
         inv.addItem(enchants);

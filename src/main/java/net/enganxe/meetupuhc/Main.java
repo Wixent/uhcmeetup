@@ -1,15 +1,13 @@
 package net.enganxe.meetupuhc;
 
-import net.enganxe.meetupuhc.commands.ExamineCommand;
-import net.enganxe.meetupuhc.commands.ForceStartCommand;
-import net.enganxe.meetupuhc.commands.ReloadCommand;
-import net.enganxe.meetupuhc.commands.StatsCommand;
+import net.enganxe.meetupuhc.commands.*;
 import net.enganxe.meetupuhc.config.ConfigFile;
 import net.enganxe.meetupuhc.config.WorldCreator;
 import net.enganxe.meetupuhc.events.*;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.guis.UI2;
 import net.enganxe.meetupuhc.player.Scoreboards;
+import net.enganxe.meetupuhc.scenarios.NoClean;
 import net.enganxe.meetupuhc.scenarios.TimeBomb;
 import net.enganxe.meetupuhc.guis.UI;
 import org.bukkit.Bukkit;
@@ -39,6 +37,7 @@ public final class Main extends JavaPlugin implements Listener {
         this.config = new ConfigFile(this);
         getServer().getPluginManager().registerEvents(new HubEvents(this), this);
         new TimeBomb(this);
+        new NoClean(this);
         new AutoStartEvent(this);
         new InventoryClick(this);
         new StatsCommand(this);

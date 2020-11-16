@@ -1,18 +1,19 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.Objects;
 
 public class FightEvents implements Listener {
 
@@ -29,7 +30,7 @@ public class FightEvents implements Listener {
             Player p = (Player) e.getEntity();
             Player a = (Player) e.getDamager();
             if (p.isBlocking()) {
-                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE)) {
+                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE) || a.getItemInHand().getType().equals(Material.NETHERITE_AXE)){
                     a.playSound(p.getLocation(), Sound.ITEM_SHIELD_BREAK, 10, 1);
                 }
             }
@@ -56,10 +57,13 @@ public class FightEvents implements Listener {
     public void axenerf(EntityDamageByEntityEvent e){
         if (e.getDamager().getType() == EntityType.PLAYER) {
             Player a = (Player) e.getDamager();
-            if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE)) {
-                int d = (int) e.getDamage();
-                int da = (int) (d * 0.92);
-                e.setDamage(da);
+            Player t = (Player) e.getEntity();
+            if (!t.isBlocking()) {
+                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE)) {
+                    int d = (int) e.getDamage();
+                    int da = (int) (d * 0.92);
+                    e.setDamage(da);
+                }
             }
         }
     }

@@ -173,9 +173,12 @@ public class ForceStartCommand implements CommandExecutor {
     }
 
     public void scatter(Player p) {
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2147483647, 200));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 200));
         String world = config.getConfig().getString("worlds.meetup_world");
         int worldborder = Integer.parseInt(Objects.requireNonNull(config.getConfig().getString("config.worldborder")));
         new BukkitRunnable() {
