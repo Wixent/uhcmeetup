@@ -12,6 +12,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
@@ -22,6 +25,20 @@ public class FightEvents implements Listener {
         this.plugin = plugin;
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+    @EventHandler
+    public void left(PlayerQuitEvent e) {
+        if (Main.started && !Main.finalized) {
+            Player p = e.getPlayer();
+            if (p.getGameMode() == GameMode.SURVIVAL) {
+                World w = p.getWorld();
+                Location loc = p.getLocation();
+                Inventory inv = p.getInventory();
+                for (ItemStack item : inv.getContents()) {
+                    w.dropItem(loc, item);
+                }
+            }
+        }
     }
 
     @EventHandler
