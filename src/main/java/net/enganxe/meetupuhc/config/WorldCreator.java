@@ -31,7 +31,7 @@ public class WorldCreator {
         c.generateStructures(false);
         c.generatorSettings();
         Random rand = new Random();
-        int seedn = rand.nextInt(20);
+        int seedn = rand.nextInt(30);
         if (seedn == 0) {
             c.seed(11071079617937L);
         }
@@ -92,6 +92,37 @@ public class WorldCreator {
         if (seedn == 19) {
             c.seed(-575037565325895L);
         }
+        if (seedn == 20) {
+            c.seed(923262004167466L);
+        }
+        if (seedn == 21) {
+            c.seed(57308506032727L);
+        }
+        if (seedn == 22) {
+            c.seed(-440800838158025L);
+        }
+        if (seedn == 23) {
+            c.seed(-182995241367265L);
+        }
+        if (seedn == 24) {
+            c.seed(-170352453922795L);
+        }
+        if (seedn == 25) {
+            c.seed(-611329979960162L);
+        }
+        if (seedn == 26) {
+            c.seed(368571302734140L);
+        }
+        if (seedn == 27) {
+            c.seed(-424483479271920L);
+        }
+        if (seedn == 28) {
+            c.seed(750482141040904L);
+        }
+        if (seedn == 29) {
+            c.seed(-135390717616729L);
+        }
+
         c.createWorld();
         World world = Bukkit.getWorld(Objects.requireNonNull(config.getConfig().getString("worlds.meetup_world")));
         assert world != null;

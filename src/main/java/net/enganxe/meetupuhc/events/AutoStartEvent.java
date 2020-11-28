@@ -182,7 +182,6 @@ public class AutoStartEvent implements Listener {
             }, 0L, 20L);
         }
     public void scatter(Player p){
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 2147483647, 200));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2147483647, 200));

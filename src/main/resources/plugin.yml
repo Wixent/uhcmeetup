@@ -16,6 +16,9 @@ commands:
     description: Starts the meetup
   examine:
     description: See inventory of player
+  topstats:
+    description: See Top Stats
+    permission: meetup.admin
 permissions:
   meetup.admin:
     description: All Commands

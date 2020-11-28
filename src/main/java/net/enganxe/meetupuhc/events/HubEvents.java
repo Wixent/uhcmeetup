@@ -79,6 +79,13 @@ public class HubEvents implements Listener {
         } else if (Main.started) {
             event.setJoinMessage("");
             player.setGameMode(GameMode.SPECTATOR);
+            player.getInventory().clear();
+            player.setHealth(20);
+            player.setExp(0.0f);
+            player.setFoodLevel(20);
+            for(PotionEffect effect : player.getActivePotionEffects()){
+                player.removePotionEffect(effect.getType());
+            }
             Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world")), 0, 200, 0);
             player.teleport(loc);
             ScoreboardManager manager = Bukkit.getScoreboardManager();

@@ -45,6 +45,7 @@ public final class Main extends JavaPlugin implements Listener {
         new StatsEvents(this);
         new FightEvents(this);
         new ExamineCommand(this);
+        new TopStatsCommand(this);
         new WorldCreator();
         WorldCreator.createLobby();
         WorldCreator.deleteWorld();

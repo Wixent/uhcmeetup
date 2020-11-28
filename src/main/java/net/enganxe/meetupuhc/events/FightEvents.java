@@ -35,6 +35,9 @@ public class FightEvents implements Listener {
                 Location loc = p.getLocation();
                 Inventory inv = p.getInventory();
                 for (ItemStack item : inv.getContents()) {
+                    if (item == null || item.getType() == Material.AIR) {
+                        continue;
+                    }
                     w.dropItem(loc, item);
                 }
             }
