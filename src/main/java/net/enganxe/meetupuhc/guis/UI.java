@@ -18,7 +18,7 @@ public class UI {
 
         inv = Bukkit.createInventory(null, inv_rows);
     }
-
+    // notch, bookshelfs, mobs
     public static Inventory GUI (Player p){
         Inventory toReturn = Bukkit.createInventory(null, inv_rows, inventory_name);
         Utils.createItem(inv, "iron_sword", 1, 13, "&bKills&8:&7 " + StatsCommand.playerkills);

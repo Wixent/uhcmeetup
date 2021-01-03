@@ -83,9 +83,10 @@ public class TimeBomb implements Listener {
         ghead.setItemMeta(gheadMeta);
 
         chest.getInventory().addItem(ghead);
-        chest.getInventory().addItem(a);
-        chest.getInventory().addItem(e);
-
+        if (Main.config.getConfig().getBoolean("config.heavypockets")){
+            chest.getInventory().addItem(a);
+            chest.getInventory().addItem(e);
+        }
         event.getDrops().clear();
 
         final ArmorStand stand = player.getWorld().spawn(chest.getLocation().clone().add(0.5, 1, 0), ArmorStand.class);
