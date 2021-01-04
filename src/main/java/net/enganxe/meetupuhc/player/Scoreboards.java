@@ -1,6 +1,7 @@
 package net.enganxe.meetupuhc.player;
 
 import net.enganxe.meetupuhc.Main;
+import net.enganxe.meetupuhc.events.AutoStartEvent;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.utils.Utils;
 import org.bukkit.Bukkit;
@@ -18,8 +19,8 @@ public class Scoreboards {
             String onlineplayers = String.valueOf(Bukkit.getOnlinePlayers().size());
             for (int i = 0; i < lines.toArray().length; i++) {
                 String currentLine = lines.get(i);
-                if (currentLine.contains("%players%")) {
-                    currentLine = currentLine.replace("%players%", onlineplayers);
+                if (currentLine.contains("%online%")) {
+                    currentLine = currentLine.replace("%online%", onlineplayers);
                 }
 
                 board.updateLine(i, Utils.chat(currentLine));
@@ -40,6 +41,9 @@ public class Scoreboards {
                     }
                     if (currentLine.contains("%border%")) {
                         currentLine = currentLine.replace("%border%", getBorderSize());
+                    }
+                    if (currentLine.contains("%time%")) {
+                        currentLine = currentLine.replace("%time%", AutoStartEvent.timer);
                     }
 
                     board.updateLine(i, Utils.chat(currentLine));

@@ -4,10 +4,11 @@
 #██║░░░██║██╔══██║██║░░██╗  ██║╚██╔╝██║██╔══╝░░██╔══╝░░░░░██║░░░██║░░░██║██╔═══╝░
 #╚██████╔╝██║░░██║╚█████╔╝  ██║░╚═╝░██║███████╗███████╗░░░██║░░░╚██████╔╝██║░░░░░
 #░╚═════╝░╚═╝░░╚═╝░╚════╝░  ╚═╝░░░░░╚═╝╚══════╝╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░░░ by Wixent
-# This plugin is created for 1.16.4 version
+# This plugin is created for 1.16 version
 
 config: 
   playerstostart: 3
+  countdowntime: 60
   worldborder: 400
   borderprefix: "&8[&3&lBorder&8]&r "
   goldenhead: "&6Golden Head"
@@ -23,14 +24,17 @@ messages:
   death: "&e%victim% &6died"
   worldborder1: "&bWorldborder is shrinking in one minute"
   worldborder2: "&bWorldborder is shrinking to 100x100 for 3 minutes"
+  actionbarwaiting: "&7Waiting... (%online%/%mintostart% Players to Start)"
+  actionbarwb: "&bWorldborder: %wbsize%"
 scoreboard:
   title: "&dMeetup"
   hubscoreboard:
-    - "&fPlayers:&d %players%"
+    - "&fPlayers:&d %online%"
     - ""
     - "&dyour.ip"
   gamescoreboard:
     - "&fPlayers Alive:&d %aliveplayers%"
+    - "&fGame Time:&d %time%"
     - "&fKills:&d %kills%"
     - "&fBorder:&d %border%"
     - ""
@@ -38,6 +42,9 @@ scoreboard:
 worlds:
   lobby_world: "lobby"
   meetup_world: "meetup"
+
+lobby_location:
+
 
 # STATS
 stats:

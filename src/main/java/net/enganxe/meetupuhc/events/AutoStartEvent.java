@@ -3,6 +3,10 @@ package net.enganxe.meetupuhc.events;
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.config.WorldCreator;
 import net.enganxe.meetupuhc.player.KitGiver;
+import net.enganxe.meetupuhc.player.Scoreboards;
+import net.enganxe.meetupuhc.utils.Utils;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -24,9 +28,11 @@ import static net.enganxe.meetupuhc.Main.*;
 
 public class AutoStartEvent implements Listener {
     public static int time;
+    public static boolean first;
     public static int wtime;
     public static boolean enablewb;
     private final Main plugin;
+    public static String timer;
     public AutoStartEvent(Main plugin){
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -56,12 +62,14 @@ public class AutoStartEvent implements Listener {
         World worldd = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));
         if (Bukkit.getOnlinePlayers().size() == Main.PlayersToStart) {
             if (!Main.started && !Main.starting) {
-                time = 61;
+                time = config.getConfig().getInt("config.countdowntime") + 1;
+                first = false;
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                     @Override
                     public void run() {
                         time = time - 1;
-                        if (time == 60){
+                        if (!first){
+                            first = true;
                             WorldCreator.setWorldBorder();
                             worldd.setGameRule(GameRule.NATURAL_REGENERATION, false);
                             worldd.setGameRule(GameRule.DO_MOB_SPAWNING, false);
@@ -70,11 +78,9 @@ public class AutoStartEvent implements Listener {
                             worldd.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
                             worldd.setTime(9000);
                             worldd.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-                            Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             Main.starting = true;
                             Main.started = false;
                             for (Player all : Bukkit.getOnlinePlayers()) {
-                                all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
                                 scatter(all);
                                 KitGiver.setInv(all);
                                 ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -83,6 +89,12 @@ public class AutoStartEvent implements Listener {
                                 objective.setDisplayName(ChatColor.RED + "❤");
                                 objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
                                 all.setScoreboard(board);
+                            }
+                        }
+                        if (time == 60){
+                            Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
+                            for (Player all : Bukkit.getOnlinePlayers()) {
+                                all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
                             }
                         }
                         if (time == 30) {
@@ -99,42 +111,49 @@ public class AutoStartEvent implements Listener {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                all.sendTitle(Utils.chat( "&b" + time), "");
                             }
                         }
                         if (time == 5) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                all.sendTitle(Utils.chat( "&b" + time), "");
                             }
                         }
                         if (time == 4) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                all.sendTitle(Utils.chat( "&b" + time), "");
                             }
                         }
                         if (time == 3) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                all.sendTitle(Utils.chat( "&b" + time), "");
                             }
                         }
                         if (time == 2) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                all.sendTitle(Utils.chat( "&b" + time), "");
                             }
                         }
                         if (time == 1) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                all.sendTitle(Utils.chat( "&b" + time), "");
                             }
                         }
                         if (time == 0) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "The Meetup has been " + ChatColor.LIGHT_PURPLE + "started!");
                             assert world != null;
                             for (Player all : Bukkit.getOnlinePlayers()) {
+                                all.sendTitle(Utils.chat("&bThe Meetup has started"), Utils.chat("&aGL!"), 10, 40, 10);
                                 Main.PlayersAlive.add(all);
                                 all.setInvulnerable(false);
                                 all.playSound(all.getLocation(), Sound.BLOCK_ANCIENT_DEBRIS_BREAK, 10, 1);
@@ -153,6 +172,7 @@ public class AutoStartEvent implements Listener {
                             Main.starting = false;
                             Main.started = true;
                             WorldBorderSh();
+                            time();
                         }
                     }
                 },0L, 20L);
@@ -177,6 +197,16 @@ public class AutoStartEvent implements Listener {
                         World world = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));
                         WorldBorder worldBorder = world.getWorldBorder();
                         worldBorder.setSize(100, 180);
+                        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!Main.starting && !Main.started) {
+                                    for (Player all : Bukkit.getOnlinePlayers()) {
+                                        all.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(config.getConfig().getString("messages.actionbarwb")).replace("%wbsize%", Scoreboards.getBorderSize())));
+                                    }
+                                }
+                            }
+                        },0L, 1L);
                     }
                 }
             }, 0L, 20L);
@@ -234,5 +264,43 @@ public class AutoStartEvent implements Listener {
 
             }
         }.runTaskLater(this.plugin, 5);
+    }
+    public void time(){
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            int min = 00;
+            int sec = 00;
+            int hor = 00;
+            String secc;
+            String minn;
+            String horr;
+            @Override
+            public void run() {
+                if (sec < 10){
+                    secc = "0" + sec;
+                } else if (sec > 9){
+                    secc = "" + sec;
+                }
+                if (min < 10){
+                    minn = "0" + min;
+                } else if (min > 9){
+                    minn = "" + min;
+                }
+                if (hor < 10){
+                    horr = "0" + hor;
+                } else if (sec > 9){
+                    horr = "" + hor;
+                }
+                timer = horr + ":" + minn + ":" + secc;
+                sec = sec + 1;
+                if (sec == 60){
+                    sec = 00;
+                    min = min + 1;
+                }
+                if (min == 60){
+                    min = 00;
+                    hor = hor + 1;
+                }
+            }
+        },0L, 20L);
     }
 }

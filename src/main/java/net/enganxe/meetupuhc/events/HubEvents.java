@@ -3,6 +3,9 @@ package net.enganxe.meetupuhc.events;
 import net.enganxe.meetupuhc.Main;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.KitGiver;
+import net.enganxe.meetupuhc.utils.Utils;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.*;
@@ -67,6 +70,14 @@ public class HubEvents implements Listener {
             msg = msg.replace("%player%", player.getName());
             msg = msg.replace("%needplayers%", needPlayer);
             event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    if (!Main.starting && !Main.started) {
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(config.getConfig().getString("messages.actionbarwaiting")).replace("%online%", "" + Bukkit.getOnlinePlayers().size()).replace("%mintostart%", "" + PlayersToStart)));
+                    }
+                }
+            },0L, 1L);
         } else if (Main.starting) {
             player.setAllowFlight(false);
             player.setGameMode(GameMode.SURVIVAL);
