@@ -31,6 +31,9 @@ You can see the project [here](https://github.com/users/Wixent/projects/3)
 ```/uhcmeetup reload```
 - Reloads Config File
 
+```/setlobby```
+- Set the spawn
+
 
 # Server
 
