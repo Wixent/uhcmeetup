@@ -1,6 +1,7 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
+import net.enganxe.meetupuhc.commands.setLobbyCommand;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.KitGiver;
 import net.enganxe.meetupuhc.utils.Utils;
@@ -57,7 +58,7 @@ public class HubEvents implements Listener {
             Main.PlayersToStart = config.getConfig().getInt("config.playerstostart");
             int neededPlayers = Main.PlayersToStart - Bukkit.getOnlinePlayers().size();
             player.setGameMode(GameMode.SURVIVAL);
-            Location loc = new Location(Bukkit.getWorld(config.getConfig().getString("worlds.lobby_world")), 0, 100, 0);
+            Location loc = setLobbyCommand.getLobbyLocation();
             player.teleport(loc);
             player.setHealth(20);
             player.setFoodLevel(20);

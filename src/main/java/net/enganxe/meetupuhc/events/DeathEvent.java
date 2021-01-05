@@ -3,6 +3,7 @@ package net.enganxe.meetupuhc.events;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.enganxe.meetupuhc.Main;
+import net.enganxe.meetupuhc.commands.setLobbyCommand;
 import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -26,6 +27,8 @@ public class DeathEvent implements Listener {
     public void onPlayerDeath (PlayerDeathEvent e){
         Player player = e.getEntity();
         player.setGameMode(GameMode.SPECTATOR);
+        Location loc = setLobbyCommand.getLobbyLocation();
+        player.teleport(loc);
         if (e.getEntity().getKiller() instanceof Player){
             String killer = e.getEntity().getKiller().getName();
             String p = e.getEntity().getName();

@@ -19,6 +19,9 @@ commands:
   topstats:
     description: See Top Stats
     permission: meetup.admin
+  setlobby:
+    permission: meetup.admin
+    description: Set Lobby Spawn
 permissions:
   meetup.admin:
     description: All Commands

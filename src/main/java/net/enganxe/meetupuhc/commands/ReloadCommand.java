@@ -19,7 +19,7 @@ public class ReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!sender.hasPermission("meetup.admin")){
-            sender.sendMessage(ChatColor.RED + "You don't have permission tu execute this command");
+            sender.sendMessage(ChatColor.RED + "You don't have permission to execute this command");
             return true;
         }
         if (args.length == 0){

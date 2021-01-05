@@ -16,14 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static net.enganxe.meetupuhc.utils.Utils.getRandomInt;
 import static org.bukkit.Material.*;
 
 public class KitGiver {
-    public static Integer getRandomInt(Integer max) {
-        Random ran = new Random();
-        return ran.nextInt(max);
-    }
-
     public static void setInv(Player player) {
         PlayerInventory inv =  player.getInventory();
         ItemStack shield = new ItemStack(SHIELD);
@@ -176,7 +172,9 @@ public class KitGiver {
         inv.addItem(botella);
         inv.addItem(lapis);
         inv.addItem(mesacrafteo);
-        inv.addItem(mesa);
+        if (Main.config.getConfig().getBoolean("config.heavypockets")) {
+            inv.addItem(mesa);
+        }
         inv.addItem(lava);
         inv.addItem(water);
         inv.addItem(comida);
@@ -291,5 +289,6 @@ public class KitGiver {
         }
 
     }
+
 
 }

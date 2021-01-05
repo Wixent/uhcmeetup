@@ -10,11 +10,11 @@ import org.bukkit.Statistic;
 
 import java.util.List;
 
-import static net.enganxe.meetupuhc.Main.config;
+import static net.enganxe.meetupuhc.Main.*;
 
 public class Scoreboards {
     public static void update(FastBoard board) {
-        if (!Main.started) {
+        if (!Main.started && !starting) {
             List<String> lines = Main.config.getConfig().getStringList("scoreboard.hubscoreboard");
             String onlineplayers = String.valueOf(Bukkit.getOnlinePlayers().size());
             for (int i = 0; i < lines.toArray().length; i++) {
@@ -25,8 +25,21 @@ public class Scoreboards {
 
                 board.updateLine(i, Utils.chat(currentLine));
             }
-        }
-        else if (Main.started) {
+        } else if (starting && !started){
+            List<String> lines = Main.config.getConfig().getStringList("scoreboard.countdownscoreboard");
+            String onlineplayers = String.valueOf(Bukkit.getOnlinePlayers().size());
+            for (int i = 0; i < lines.toArray().length; i++) {
+                String currentLine = lines.get(i);
+                if (currentLine.contains("%online%")) {
+                    currentLine = currentLine.replace("%online%", onlineplayers);
+                }
+                if (currentLine.contains("%countdown%")) {
+                    currentLine = currentLine.replace("%countdown%", "" + AutoStartEvent.time);
+                }
+
+                board.updateLine(i, Utils.chat(currentLine));
+            }
+        } else if (Main.started && !starting) {
                 List<String> lines = Main.config.getConfig().getStringList("scoreboard.gamescoreboard");
                 String kills = String.valueOf(board.getPlayer().getStatistic(Statistic.PLAYER_KILLS));
                 String palive = String.valueOf(Main.PlayersAlive.size());

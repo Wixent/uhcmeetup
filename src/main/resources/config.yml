@@ -9,13 +9,24 @@
 config: 
   playerstostart: 3
   countdowntime: 60
+  sendcountdowntitle: true
   worldborder: 400
   borderprefix: "&8[&3&lBorder&8]&r "
   goldenhead: "&6Golden Head"
   heavypockets: true
-
   #axenerf in points of damage
   axenerf: 2
+  seeds:
+    totalseeds: 9
+    1: 11071079617937
+    2: 144845014575172
+    3: -271973583926241
+    4: -632446011456927
+    5: 828786898008397
+    6: 912216414204313
+    7: 149829148888427
+    8: 706625171064917
+    9: 471484538450128
 messages:
   reload: "&6UHC Meetup &rhas been reloaded"
   join: "&e%player%&6 has joined (%needplayers% needed players to start)"
@@ -26,10 +37,18 @@ messages:
   worldborder2: "&bWorldborder is shrinking to 100x100 for 3 minutes"
   actionbarwaiting: "&7Waiting... (%online%/%mintostart% Players to Start)"
   actionbarwb: "&bWorldborder: %wbsize%"
+  titlecountdown: "&b%countdown%"
+  titlestart: "&bThe Meetup has started"
+  subtitlestart: "&aGL!"
 scoreboard:
   title: "&dMeetup"
   hubscoreboard:
     - "&fPlayers:&d %online%"
+    - ""
+    - "&dyour.ip"
+  countdownscoreboard:
+    - "&fPlayers:&d %online%"
+    - "&fStarting in:&d %countdown%"
     - ""
     - "&dyour.ip"
   gamescoreboard:
@@ -43,15 +62,17 @@ worlds:
   lobby_world: "lobby"
   meetup_world: "meetup"
 
-lobby_location:
+lobby:
+  x: 0
+  y: 100
+  z: 0
+  yaw: 0
+  pitch: 0
 
 
-# STATS
 stats:
-  #Total Meetups Played
   Played: 0
 
-  #Players Stats (Deaths, Kills, Wins, etc)
   players:
 
 

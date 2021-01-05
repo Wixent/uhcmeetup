@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Utils {
 
@@ -51,5 +52,9 @@ public class Utils {
 
         inv.setItem(invSlot - 1, item);
         return item;
+    }
+    public static Integer getRandomInt(Integer max) {
+        Random ran = new Random();
+        return ran.nextInt(max);
     }
 }

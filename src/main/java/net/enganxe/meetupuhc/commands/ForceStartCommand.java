@@ -81,15 +81,27 @@ public class ForceStartCommand implements CommandExecutor {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 30) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
+                            for (Player all : Bukkit.getOnlinePlayers()) {
+                                all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
+                            }
                         }
                         if (time == 15) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
 
                         }
@@ -97,49 +109,63 @@ public class ForceStartCommand implements CommandExecutor {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.sendTitle(Utils.chat("&b" + time), "");
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 5) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.sendTitle(Utils.chat("&b" + time), "");
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 4) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.sendTitle(Utils.chat("&b" + time), "");
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 3) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.sendTitle(Utils.chat("&b" + time), "");
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 2) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.sendTitle(Utils.chat("&b" + time), "");
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 1) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in " + ChatColor.LIGHT_PURPLE + time);
                             for (Player all : Bukkit.getOnlinePlayers()) {
                                 all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 10, 1);
-                                all.sendTitle(Utils.chat("&b" + time), "");
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&b" + time), "");
+                                }
                             }
                         }
                         if (time == 0) {
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "The Meetup has been " + ChatColor.LIGHT_PURPLE + "started!");
                             assert world != null;
                             for (Player all : Bukkit.getOnlinePlayers()) {
-                                all.sendTitle(Utils.chat("&bThe Meetup has started"), Utils.chat("&aGL!"), 10, 40, 10);
+                                if (config.getConfig().getBoolean("config.sendcountdowntitle")) {
+                                    all.sendTitle(Utils.chat("&bThe Meetup has started"), Utils.chat("&aGL!"), 10, 40, 10);
+                                }
                                 Main.PlayersAlive.add(all);
                                 all.setInvulnerable(false);
                                 all.playSound(all.getLocation(), Sound.BLOCK_ANCIENT_DEBRIS_BREAK, 10, 1);
@@ -150,7 +176,7 @@ public class ForceStartCommand implements CommandExecutor {
                                 int gplayed = config.getConfig().getInt("stats.players." + pa + ".gamesplayed");
                                 config.getConfig().set("stats.players." + pa + ".gamesplayed", gplayed + 1);
                                 config.saveConfig();
-
+                                all.sendTitle(Utils.chat("&bThe Meetup has started"), Utils.chat("&aGL!"), 10, 40, 10);
                             }
                             int mplayed = config.getConfig().getInt("stats.Played");
                             config.getConfig().set("stats.Played", mplayed + 1);
@@ -183,19 +209,22 @@ public class ForceStartCommand implements CommandExecutor {
                     World world = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));
                     WorldBorder worldBorder = world.getWorldBorder();
                     worldBorder.setSize(100, 180);
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!Main.starting && !Main.started) {
-                                for (Player all : Bukkit.getOnlinePlayers()) {
-                                    all.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(config.getConfig().getString("messages.actionbarwb")).replace("%wbsize%", Scoreboards.getBorderSize())));
-                                }
-                            }
-                        }
-                    },0L, 1L);
+                    sendaction();
                 }
             }
         }, 0L, 20L);
+    }
+    public void sendaction(){
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (Main.started && !finalized) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(config.getConfig().getString("messages.actionbarwb")).replace("%wbsize%", Scoreboards.getBorderSize())));
+                    }
+                }
+            }
+        },0L, 1L);
     }
     public void scatter(Player p){
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2147483647, 200));
