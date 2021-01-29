@@ -1,5 +1,7 @@
 # UHC Meetup
 UHC Meetup Plugin for Enganxe Network
+
+Download [here](https://www.spigotmc.org/resources/uhc-meetup-1-16.87430/)
 # Information:
 Author: [Wixent](https://twitter.com/wixqnt)
 
