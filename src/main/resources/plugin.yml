@@ -7,8 +7,7 @@ description: UHC Meetup plugin for Enganxe Network
 website: github.com/wixent
 commands:
   uhcmeetup:
-    description: Reload plugin config
-    permission: meetup.admin
+    description: Info
   stats:
     description: See the meetup stats
   forcestart:
@@ -22,6 +21,21 @@ commands:
   setlobby:
     permission: meetup.admin
     description: Set Lobby Spawn
+  absorptionless:
+    permission: meetup.admin
+    description: Toggle Scenario
+  timebomb:
+    permission: meetup.admin
+    description: Toggle Scenario
+  noclean:
+    permission: meetup.admin
+    description: Toggle Scenario
+  heavypockets:
+    permission: meetup.admin
+    description: Toggle Scenario
+  scen:
+    description: See Enabled Scenarios
+
 permissions:
   meetup.admin:
     description: All Commands

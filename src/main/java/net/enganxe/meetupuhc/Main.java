@@ -7,6 +7,8 @@ import net.enganxe.meetupuhc.events.*;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.guis.UI2;
 import net.enganxe.meetupuhc.player.Scoreboards;
+import net.enganxe.meetupuhc.scenarios.AbsorptionLess;
+import net.enganxe.meetupuhc.scenarios.NoClean;
 import net.enganxe.meetupuhc.scenarios.TimeBomb;
 import net.enganxe.meetupuhc.guis.UI;
 import org.bukkit.Bukkit;
@@ -36,6 +38,8 @@ public final class Main extends JavaPlugin implements Listener {
         this.config = new ConfigFile(this);
         getServer().getPluginManager().registerEvents(new HubEvents(this), this);
         new TimeBomb(this);
+        new NoClean(this);
+        new AbsorptionLess(this);
         new AutoStartEvent(this);
         new InventoryClick(this);
         new StatsCommand(this);
@@ -47,6 +51,7 @@ public final class Main extends JavaPlugin implements Listener {
         new ExamineCommand(this);
         new TopStatsCommand(this);
         new setLobbyCommand(this);
+        new ScenarioCommands(this);
         new WorldCreator();
         WorldCreator.createLobby();
         WorldCreator.deleteWorld();
@@ -59,6 +64,8 @@ public final class Main extends JavaPlugin implements Listener {
         StatsCommand.playerkills = 0;
         PlayersAlive.clear();
         PlayersToStart = config.getConfig().getInt("config.playerstostart");
+        Scoreboards.first = true;
+        Scoreboards.first1 = true;
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (FastBoard board : boards.values()) {
                 board.updateTitle(ChatColor.translateAlternateColorCodes('&', config.getConfig().getString("scoreboard.title")));

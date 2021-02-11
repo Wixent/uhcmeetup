@@ -13,6 +13,8 @@ import java.util.List;
 import static net.enganxe.meetupuhc.Main.*;
 
 public class Scoreboards {
+    public static boolean first;
+    public static boolean first1;
     public static void update(FastBoard board) {
         if (!Main.started && !starting) {
             List<String> lines = Main.config.getConfig().getStringList("scoreboard.hubscoreboard");
@@ -28,6 +30,10 @@ public class Scoreboards {
         } else if (starting && !started){
             List<String> lines = Main.config.getConfig().getStringList("scoreboard.countdownscoreboard");
             String onlineplayers = String.valueOf(Bukkit.getOnlinePlayers().size());
+            if (first1){
+                board.updateLines("");
+                first1 = false;
+            }
             for (int i = 0; i < lines.toArray().length; i++) {
                 String currentLine = lines.get(i);
                 if (currentLine.contains("%online%")) {
@@ -43,7 +49,10 @@ public class Scoreboards {
                 List<String> lines = Main.config.getConfig().getStringList("scoreboard.gamescoreboard");
                 String kills = String.valueOf(board.getPlayer().getStatistic(Statistic.PLAYER_KILLS));
                 String palive = String.valueOf(Main.PlayersAlive.size());
-                board.updateLines("");
+                if (first){
+                    board.updateLines("");
+                    first = false;
+                }
                 for (int i = 0; i < lines.toArray().length; i++) {
                     String currentLine = lines.get(i);
                     if (currentLine.contains("%aliveplayers%")) {

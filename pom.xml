@@ -6,7 +6,7 @@
 
     <groupId>net.enganxe</groupId>
     <artifactId>MeetupUHC</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.03</version>
     <packaging>jar</packaging>
 
     <name>MeetupUHC</name>

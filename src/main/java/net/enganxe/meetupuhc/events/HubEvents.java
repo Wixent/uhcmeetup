@@ -59,11 +59,15 @@ public class HubEvents implements Listener {
             int neededPlayers = Main.PlayersToStart - Bukkit.getOnlinePlayers().size();
             player.setGameMode(GameMode.SURVIVAL);
             Location loc = setLobbyCommand.getLobbyLocation();
+            assert loc != null;
             player.teleport(loc);
             player.setHealth(20);
             player.setFoodLevel(20);
             player.setLevel(0);
             player.setExp(0.0f);
+            for(PotionEffect effect : player.getActivePotionEffects()){
+                player.removePotionEffect(effect.getType());
+            }
             Inventory inv = player.getInventory();
             inv.clear();
             String msg = config.getConfig().getString("messages.join");
@@ -133,21 +137,23 @@ public class HubEvents implements Listener {
             }
             if (Main.PlayersAlive.size() == 1) {
                 String palive = Main.PlayersAlive.get(0).getName();
-                Bukkit.broadcastMessage("" + ChatColor.YELLOW + palive + ChatColor.GOLD + " won the Meetup!");
+                Bukkit.broadcastMessage(Utils.chat(config.getConfig().getString("messages.win")).replace("%player%", palive));
                 int wins = config.getConfig().getInt("stats.players." + palive + ".wins");
                 config.getConfig().set("stats.players." + palive + ".wins", wins + 1);
                 config.saveConfig();
                 Main.PlayersAlive.clear();
-                Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 30 seconds");
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
-                        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-                        String command = "restart";
-                        Bukkit.dispatchCommand(console, command);
-                    }
-                }, 600L);
+                if (config.getConfig().getBoolean("config.finishrestart")) {
+                    Bukkit.broadcastMessage(ChatColor.RED + "Server restarting in 30 seconds");
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.broadcastMessage(ChatColor.RED + "Stoping Server...");
+                            ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+                            String command = "restart";
+                            Bukkit.dispatchCommand(console, command);
+                        }
+                    }, 600L);
+                }
             }
         }
 

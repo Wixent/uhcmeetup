@@ -9,13 +9,17 @@
 config: 
   playerstostart: 3
   countdowntime: 60
+  finishrestart: true
   sendcountdowntitle: true
+  nocleantime: 20
   worldborder: 400
   borderprefix: "&8[&3&lBorder&8]&r "
   goldenhead: "&6Golden Head"
-  heavypockets: true
-  #axenerf in points of damage
-  axenerf: 2
+  scenarios:
+    heavypockets: true
+    timebomb: true
+    noclean: false
+    absorptionless: false
   seeds:
     totalseeds: 9
     1: 11071079617937
@@ -33,6 +37,7 @@ messages:
   quit: "&e%player% &6has left"
   death_by_player: "&e%victim% &6has been killed by &e%killer%"
   death: "&e%victim% &6died"
+  win: "&e%player% &6 won the Meetup"
   worldborder1: "&bWorldborder is shrinking in one minute"
   worldborder2: "&bWorldborder is shrinking to 100x100 for 3 minutes"
   actionbarwaiting: "&7Waiting... (%online%/%mintostart% Players to Start)"
@@ -40,6 +45,12 @@ messages:
   titlecountdown: "&b%countdown%"
   titlestart: "&bThe Meetup has started"
   subtitlestart: "&aGL!"
+  scenenabled: "&d%scenario% &7has been &aenabled"
+  scendisabled: "&d%scenario% &7has been &cdisabled"
+  noclean1: "&c[NoClean] You are invulnerable for %time% seconds, unless you hit someone"
+  noclean2: "&c[NoClean] You are no longer invulnerable"
+  scen1: "&bScenarios Enabled:"
+  scen2: "&b- %scenario%"
 scoreboard:
   title: "&dMeetup"
   hubscoreboard:
@@ -61,7 +72,6 @@ scoreboard:
 worlds:
   lobby_world: "lobby"
   meetup_world: "meetup"
-
 lobby:
   x: 0
   y: 100

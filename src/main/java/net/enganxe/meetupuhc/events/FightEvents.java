@@ -46,12 +46,23 @@ public class FightEvents implements Listener {
 
     @EventHandler
     public void damage(EntityDamageByEntityEvent e) {
-        if (e.getDamager().getType() == EntityType.PLAYER) {
-            Player p = (Player) e.getEntity();
-            Player a = (Player) e.getDamager();
-            if (p.isBlocking()) {
-                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE) || a.getItemInHand().getType().equals(Material.NETHERITE_AXE)){
-                    a.playSound(p.getLocation(), Sound.ITEM_SHIELD_BREAK, 10, 1);
+        if (e.getEntity().getType() == EntityType.PLAYER) {
+            if (e.getDamager().getType() == EntityType.PLAYER) {
+                Player p = (Player) e.getEntity();
+                Player a = (Player) e.getDamager();
+                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE) || a.getItemInHand().getType().equals(Material.NETHERITE_AXE) || a.getItemInHand().getType().equals(Material.STONE_AXE) || a.getItemInHand().getType().equals(Material.WOODEN_AXE) || a.getItemInHand().getType().equals(Material.GOLDEN_AXE)) {
+                    if (p.isBlocking()) {
+                        double health1 = p.getHealth() + p.getAbsorptionAmount();
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                double health2 = p.getHealth() + p.getAbsorptionAmount();
+                                if (health1 == health2) {
+                                    a.playSound(p.getLocation(), Sound.ITEM_SHIELD_BREAK, 10, 1);
+                                }
+                            }
+                        }, 1L);
+                    }
                 }
             }
         }
