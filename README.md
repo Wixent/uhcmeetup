@@ -7,7 +7,7 @@ Author: [Wixent](https://twitter.com/wixqnt)
 
 MC Version: 1.16.1
 
-Plugin Version: Beta 1.1
+Plugin Version: 1.03
 
 You can see the project [here](https://github.com/users/Wixent/projects/3)
 
