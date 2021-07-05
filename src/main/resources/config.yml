@@ -4,7 +4,7 @@
 #██║░░░██║██╔══██║██║░░██╗  ██║╚██╔╝██║██╔══╝░░██╔══╝░░░░░██║░░░██║░░░██║██╔═══╝░
 #╚██████╔╝██║░░██║╚█████╔╝  ██║░╚═╝░██║███████╗███████╗░░░██║░░░╚██████╔╝██║░░░░░
 #░╚═════╝░╚═╝░░╚═╝░╚════╝░  ╚═╝░░░░░╚═╝╚══════╝╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░░░ by Wixent
-# This plugin is created for 1.16 version
+# This plugin is created for 1.17 version
 
 config: 
   playerstostart: 3
@@ -15,6 +15,7 @@ config:
   worldborder: 400
   borderprefix: "&8[&3&lBorder&8]&r "
   goldenhead: "&6Golden Head"
+  axenerf: true
   scenarios:
     heavypockets: true
     timebomb: true
@@ -31,6 +32,7 @@ config:
     7: 149829148888427
     8: 706625171064917
     9: 471484538450128
+
 messages:
   reload: "&6UHC Meetup &rhas been reloaded"
   join: "&e%player%&6 has joined (%needplayers% needed players to start)"
@@ -51,6 +53,7 @@ messages:
   noclean2: "&c[NoClean] You are no longer invulnerable"
   scen1: "&bScenarios Enabled:"
   scen2: "&b- %scenario%"
+
 scoreboard:
   title: "&dMeetup"
   hubscoreboard:
@@ -69,9 +72,11 @@ scoreboard:
     - "&fBorder:&d %border%"
     - ""
     - "&dyour.ip"
+
 worlds:
   lobby_world: "lobby"
   meetup_world: "meetup"
+
 lobby:
   x: 0
   y: 100

@@ -73,7 +73,7 @@ public class Scoreboards {
             }
     }
     public static String getBorderSize() {
-        double wB = Bukkit.getServer().getWorld(config.getConfig().getString("worlds.meetup_world")).getWorldBorder().getSize();
+        double wB = Bukkit.getServer().getWorld(config.getConfig().getString("worlds.meetup_world")).getWorldBorder().getSize() / 2;
         int wBint = (int) wB;
         String wBsize = String.valueOf(wBint);
         return wBsize;

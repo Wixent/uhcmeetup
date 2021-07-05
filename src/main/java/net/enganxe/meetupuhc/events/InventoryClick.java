@@ -19,17 +19,13 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void OnClick(InventoryClickEvent e){
         String title = e.getView().getTitle();
-        if (title.equals(UI.inventory_name)){
+        if (title.equals(UI.inventory_name))
             e.setCancelled(true);
-            if (e.getCurrentItem() == null){
-                return;
-            }
-        }
-        else if (title.equals(UI2.inventory_name)){
+
+        else if (title.equals(UI2.inventory_name))
             e.setCancelled(true);
-            if (e.getCurrentItem() == null){
-                return;
-            }
-        }
+
+        else if (title.endsWith("'s Inventory"))
+            e.setCancelled(true);
     }
 }
