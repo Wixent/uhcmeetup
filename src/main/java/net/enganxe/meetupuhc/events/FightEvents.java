@@ -2,10 +2,7 @@ package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
 import org.bukkit.*;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -46,34 +43,33 @@ public class FightEvents implements Listener {
 
     @EventHandler
     public void damage(EntityDamageByEntityEvent e) {
-        if (e.getEntity().getType() == EntityType.PLAYER) {
-            if (e.getDamager().getType() == EntityType.PLAYER) {
-                Player p = (Player) e.getEntity();
-                Player a = (Player) e.getDamager();
-                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE) || a.getItemInHand().getType().equals(Material.NETHERITE_AXE) || a.getItemInHand().getType().equals(Material.STONE_AXE) || a.getItemInHand().getType().equals(Material.WOODEN_AXE) || a.getItemInHand().getType().equals(Material.GOLDEN_AXE)) {
-                    if (p.isBlocking()) {
-                        double health1 = p.getHealth() + p.getAbsorptionAmount();
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                double health2 = p.getHealth() + p.getAbsorptionAmount();
-                                if (health1 == health2) {
-                                    a.playSound(p.getLocation(), Sound.ITEM_SHIELD_BREAK, 10, 1);
-                                }
+        if (e.getEntity().getType() == EntityType.PLAYER && e.getDamager().getType() == EntityType.PLAYER) {
+            Player p = (Player) e.getEntity();
+            Player a = (Player) e.getDamager();
+            if (a.getInventory().getItemInMainHand().getType().toString().endsWith("_AXE")) {
+                if (p.isBlocking()) {
+                    double health1 = p.getHealth() + p.getAbsorptionAmount();
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            double health2 = p.getHealth() + p.getAbsorptionAmount();
+                            if (health1 == health2) {
+                                a.playSound(p.getLocation(), Sound.ITEM_SHIELD_BREAK, 10, 1);
                             }
-                        }, 1L);
-                    }
+                        }
+                    }, 1L);
                 }
             }
         }
     }
+
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        Entity entity = (Entity) e.getEntity();
+        Entity entity = e.getEntity();
         if (entity instanceof Player) {
             Player p = (Player) e.getEntity();
-            if (e.getDamager() instanceof Arrow) {
-                Arrow arrow = (Arrow) e.getDamager();
+            if (e.getDamager() instanceof AbstractArrow && ((AbstractArrow) e.getDamager()).getShooter() instanceof Player) {
+                AbstractArrow arrow = (AbstractArrow) e.getDamager();
                 Player t = (Player) arrow.getShooter();
                 int h = (int) p.getHealth();
                 int a = (int) p.getAbsorptionAmount();
@@ -86,13 +82,13 @@ public class FightEvents implements Listener {
     }
     @EventHandler
     public void axenerf(EntityDamageByEntityEvent e){
-        if (e.getDamager().getType() == EntityType.PLAYER) {
+        if (e.getDamager().getType() == EntityType.PLAYER && e.getEntity().getType() == EntityType.PLAYER && Main.config.getConfig().getBoolean("config.axenerf")) {
             Player a = (Player) e.getDamager();
             Player t = (Player) e.getEntity();
             if (!t.isBlocking()) {
-                if (a.getItemInHand().getType().equals(Material.DIAMOND_AXE) || a.getItemInHand().getType().equals(Material.IRON_AXE)) {
-                    int d = (int) e.getDamage();
-                    int da = (int) (d * 0.92);
+                if (a.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE || a.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+                    double d = e.getDamage();
+                    double da = d * 0.92;
                     e.setDamage(da);
                 }
             }

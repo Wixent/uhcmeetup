@@ -1,6 +1,7 @@
 package net.enganxe.meetupuhc.events;
 
 import net.enganxe.meetupuhc.Main;
+import net.enganxe.meetupuhc.commands.ExamineCommand;
 import net.enganxe.meetupuhc.commands.setLobbyCommand;
 import net.enganxe.meetupuhc.fastboard.FastBoard;
 import net.enganxe.meetupuhc.player.KitGiver;
@@ -15,11 +16,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -160,7 +161,24 @@ public class HubEvents implements Listener {
     }
 
     @EventHandler
+    public void onMove(PlayerMoveEvent e) {
+        if (starting && (e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void BreakBlock(BlockBreakEvent e) {
+        Player p = e.getPlayer();
+        if (!Main.started || finalized) {
+            if (p.getGameMode() == GameMode.SURVIVAL) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void BreakBlock(PlayerBucketEmptyEvent e) {
         Player p = e.getPlayer();
         if (!Main.started || finalized) {
             if (p.getGameMode() == GameMode.SURVIVAL) {
@@ -208,12 +226,69 @@ public class HubEvents implements Listener {
 
     @EventHandler
     public void EntityInteractEvent(PlayerInteractAtEntityEvent e) {
-        if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) {
-            if (e.getRightClicked().getType() == EntityType.PLAYER) {
-                Player p = e.getPlayer();
-                String t = (String) e.getRightClicked().getName().toString();
-                p.chat("/examine " + t);
+        if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getRightClicked().getType() == EntityType.PLAYER &&
+                e.getHand() == EquipmentSlot.HAND) {
+            Player p = e.getPlayer();
+            String t = e.getRightClicked().getName();
+            p.chat("/examine " + t);
+        }
+    }
+
+    @EventHandler
+    public void onInventory(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+
+        for (Player spec : Bukkit.getOnlinePlayers()) {
+            if (spec.getGameMode() == GameMode.SPECTATOR && spec.getOpenInventory().getTitle().contains(p.getName())) {
+                ExamineCommand.openInv(spec, p);
             }
         }
     }
+
+    @EventHandler
+    public void onEat(PlayerItemConsumeEvent e) {
+        Player p = e.getPlayer();
+
+        for (Player spec : Bukkit.getOnlinePlayers()) {
+            if (spec.getGameMode() == GameMode.SPECTATOR && spec.getOpenInventory().getTitle().contains(p.getName())) {
+                ExamineCommand.openInv(spec, p);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent e) {
+        Player p = e.getPlayer();
+
+        for (Player spec : Bukkit.getOnlinePlayers()) {
+            if (spec.getGameMode() == GameMode.SPECTATOR && spec.getOpenInventory().getTitle().contains(p.getName())) {
+                ExamineCommand.openInv(spec, p);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPickUp(EntityPickupItemEvent e) {
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+
+            for (Player spec : Bukkit.getOnlinePlayers()) {
+                if (spec.getGameMode() == GameMode.SPECTATOR && spec.getOpenInventory().getTitle().contains(p.getName())) {
+                    ExamineCommand.openInv(spec, p);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onThrow(InventoryDragEvent e) {
+        Player p = (Player) e.getWhoClicked();
+
+        for (Player spec : Bukkit.getOnlinePlayers()) {
+            if (spec.getGameMode() == GameMode.SPECTATOR && spec.getOpenInventory().getTitle().contains(p.getName())) {
+                ExamineCommand.openInv(spec, p);
+            }
+        }
+    }
+
 }

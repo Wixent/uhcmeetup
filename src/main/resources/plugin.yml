@@ -1,10 +1,11 @@
 name: MeetupUHC
 version: ${project.version}
 main: net.enganxe.meetupuhc.Main
-api-version: 1.16
+api-version: 1.17
 author: Wixent
 description: UHC Meetup plugin for Enganxe Network
 website: github.com/wixent
+
 commands:
   uhcmeetup:
     description: Info
