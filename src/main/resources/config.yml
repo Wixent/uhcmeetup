@@ -6,13 +6,15 @@
 #░╚═════╝░╚═╝░░╚═╝░╚════╝░  ╚═╝░░░░░╚═╝╚══════╝╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░░░ by Wixent
 # This plugin is created for 1.17 version
 
-config: 
+config:
   playerstostart: 3
   countdowntime: 60
   finishrestart: true
   sendcountdowntitle: true
   nocleantime: 20
+  border: true
   worldborder: 400
+  wbtime: 180
   bcprefix: "&6UHC Meetup &8⪼&f "
   borderprefix: "&8[&3&lBorder&8]&r "
   goldenhead: "&6Golden Head"

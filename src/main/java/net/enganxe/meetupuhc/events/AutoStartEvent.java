@@ -67,7 +67,9 @@ public class AutoStartEvent implements Listener {
                         time = time - 1;
                         if (!first){
                             first = true;
-                            WorldCreator.setWorldBorder();
+                            if (config.getConfig().getBoolean("config.border")) {
+                                WorldCreator.setWorldBorder();
+                            }
                             worldd.setGameRule(GameRule.NATURAL_REGENERATION, false);
                             worldd.setGameRule(GameRule.DO_MOB_SPAWNING, false);
                             worldd.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
@@ -203,6 +205,7 @@ public class AutoStartEvent implements Listener {
                             int mplayed = config.getConfig().getInt("stats.Played");
                             config.getConfig().set("stats.Played", mplayed + 1);
                             config.saveConfig();
+
                             WorldBorderSh();
                             time();
                             cancel();
@@ -229,7 +232,7 @@ public class AutoStartEvent implements Listener {
                         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));
                         World world = Bukkit.getWorld(config.getConfig().getString("worlds.meetup_world"));
                         WorldBorder worldBorder = world.getWorldBorder();
-                        worldBorder.setSize(200, 180);
+                        worldBorder.setSize(200, config.getConfig().getInt("config.wbtime"));
                         sendaction();
                         cancel();
                     }
