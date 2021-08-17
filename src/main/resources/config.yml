@@ -13,6 +13,7 @@ config:
   sendcountdowntitle: true
   nocleantime: 20
   worldborder: 400
+  bcprefix: "&6UHC Meetup &8⪼&f "
   borderprefix: "&8[&3&lBorder&8]&r "
   goldenhead: "&6Golden Head"
   axenerf: true
