@@ -89,6 +89,8 @@ lobby:
 
 
 stats:
+  mysql:
+    enabled: false
   Played: 0
 
   players:

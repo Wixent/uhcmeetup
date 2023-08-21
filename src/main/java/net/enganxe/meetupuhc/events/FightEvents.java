@@ -80,15 +80,16 @@ public class FightEvents implements Listener {
             }
         }
     }
+
     @EventHandler
     public void axenerf(EntityDamageByEntityEvent e){
-        if (e.getDamager().getType() == EntityType.PLAYER && e.getEntity().getType() == EntityType.PLAYER && Main.config.getConfig().getBoolean("config.axenerf")) {
+        if (e.getDamager().getType() == EntityType.PLAYER && e.getEntity().getType() == EntityType.PLAYER) {
             Player a = (Player) e.getDamager();
             Player t = (Player) e.getEntity();
             if (!t.isBlocking()) {
                 if (a.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE || a.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
                     double d = e.getDamage();
-                    double da = d * 0.92;
+                    double da = d * 0.90;
                     e.setDamage(da);
                 }
             }

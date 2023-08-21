@@ -111,6 +111,7 @@ public class HubEvents implements Listener {
             objective.setDisplayName(ChatColor.RED + "❤");
             objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
             player.setScoreboard(boardd);
+            player.sendMessage(Utils.chat(""));
         }
     }
 

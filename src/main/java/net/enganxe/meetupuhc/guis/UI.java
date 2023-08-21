@@ -14,7 +14,7 @@ public class UI {
     public static int inv_rows = 3 * 9;
 
     public static void initialize(){
-        inventory_name = Utils.chat("&dYour Stats");
+        inventory_name = Utils.chat("Your Stats");
 
         inv = Bukkit.createInventory(null, inv_rows);
     }
